@@ -9,8 +9,8 @@
     * move(moveAmount)
     * changeXBy()
     * changeYBy()
-    * setXTo()
-    * setYTo()
+    * setX()
+    * setY()
  */
 
 
@@ -21,17 +21,27 @@ var spritesArray = new Array();
 function Sprite(x, y, value){
     this.x = x;
     this.y = y;
-    
-    
+
+    //updates both x and y
     this.updateLocation = function(){
         this.element.style.left = (originOffsetX + this.x)+"px";
         this.element.style.top = (originOffsetY + this.y)+"px";
     }
-    
+
+    //updates only x
+    this.updateX = function(){
+        this.element.style.left = (originOffsetX + this.x)+"px";
+    }
+
+    //updates only y
+    this.updateY = function(){
+        this.element.style.top = (originOffsetY + this.y)+"px";
+    }
+
     //hack of a hack of a solution, but still works. Regex checks if value is an html tag
     var valueIsHtmlTag = (/<(br|basefont|hr|input|source|frame|param|area|meta|!--|col|link|option|base|img|wbr|!DOCTYPE).*?>|<(a|abbr|acronym|address|applet|article|aside|audio|b|bdi|bdo|big|blockquote|body|button|canvas|caption|center|cite|code|colgroup|command|datalist|dd|del|details|dfn|dialog|dir|div|dl|dt|em|embed|fieldset|figcaption|figure|font|footer|form|frameset|head|header|hgroup|h1|h2|h3|h4|h5|h6|html|i|iframe|ins|kbd|keygen|label|legend|li|map|mark|menu|meter|nav|noframes|noscript|object|ol|optgroup|output|p|pre|progress|q|rp|rt|ruby|s|samp|script|section|select|small|span|strike|strong|style|sub|summary|sup|table|tbody|td|textarea|tfoot|th|thead|time|title|tr|track|tt|u|ul|var|video).*?<\/\2>/i.test(value))
-    
-    
+
+
     if(valueIsHtmlTag){
         //if value is an html tag name
         this.isCustom = false;
@@ -50,12 +60,12 @@ function Sprite(x, y, value){
         this.updateLocation();
         document.body.appendChild(this.element);
     }
-    
+
     this.goTo = function(x,y){
         var animationTime = arguments[2];
         if(animationTime){
             //Glide function: Animates the sprites movment -- Algorithm not yet complete
-            console.error("Scratch-JS: Animation is not yet supported");            
+            console.error("Scratch-JS: Animation is not yet supported");
         }else{
             this.x = x;
             this.y = y;
@@ -63,7 +73,30 @@ function Sprite(x, y, value){
         }
     }
     
-    
+    //sets the x of the sprite
+    this.setXTo = function(newX){
+        this.x = newX;
+        this.updateX();
+    }
+
+    //sets the y of the sprite
+    this.setYTo = function(newY){
+        this.y = newY;
+        this.updateY();
+    }
+
+    //changes the x of the sprite by an amount
+    this.changeXBy = function(deltaX){
+        this.x += deltaX;
+        this.updateX();
+    }
+
+    //changes the x of the sprite by an amount
+    this.changeYBy = function(deltaY){
+        this.y += deltaY;
+        this.updateY();
+    }
+
 }
 
 
@@ -95,4 +128,3 @@ window.onresize = function(){
         sprites[sprite].updateLocation();
     }
 }
-
