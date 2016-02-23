@@ -5,12 +5,12 @@ var spritesArray = new Array();
 function Sprite(x, y, value){
     this.x = x;
     this.y = y;
-    this.direction = 90;
+    this.direction = 0;
 
     //updates both x and y
     this.updateLocation = function(){
         this.element.style.left = (originOffsetX + this.x)+"px";
-        this.element.style.top = (originOffsetY + this.y)+"px";
+        this.element.style.top = (originOffsetY - this.y)+"px";
     }
 
     //updates only x
@@ -20,11 +20,12 @@ function Sprite(x, y, value){
 
     //updates only y
     this.updateY = function(){
-        this.element.style.top = (originOffsetY + this.y)+"px";
+        this.element.style.top = (originOffsetY - this.y)+"px";
     }
 
     this.updateRotation = function(){
-        this.element.style.transform = "rotate("+(this.direction)+"deg)";
+        //by default turns clockwise, added "-" to make it turn counterclockwise like in geometry
+        this.element.style.transform = "rotate(-"+this.direction+"deg)";
     }
 
     //hack of a hack of a solution, but still works. Regex checks if value is an html tag
@@ -98,8 +99,12 @@ function Sprite(x, y, value){
     }
 
     this.move = function(amount){
-        this.x += Math.cos(this.direction) * amount;
-        this.y += Math.sin(this.direction) * amount;
+        var deltaX = Math.cos(this.direction * Math.PI / 180) * amount;
+        var deltaY = Math.sin(this.direction * Math.PI / 180) * amount;
+        this.x += deltaX;
+        this.y += deltaY;
+        console.log(deltaY);
+        console.log(deltaX);
         this.updateLocation();
     }
 }
