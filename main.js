@@ -25,7 +25,7 @@ function Sprite(x, y, value){
 
     this.updateRotation = function(){
         //by default turns clockwise, added "-" to make it turn counterclockwise like in geometry
-        this.element.style.transform = "rotate(-"+this.direction+"deg)";
+        this.element.style.transform = "rotate("+(this.direction * -1)+"deg)";
     }
 
     //hack of a hack of a solution, but still works. Regex checks if value is an html tag
