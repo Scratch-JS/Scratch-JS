@@ -114,10 +114,14 @@ function calculateDistance(x1,y1,x2, y2){
     return Math.sqrt(((x1 - x2) * (x1 - x2)) + ((y1 - y2) * (y1 - y2)))
 }
 
-function repeat(codeToExecute,times){
+function repeat(times, callback){
     for(i = 0; i<times; i++){
-        codeToExecute()
+        callback();
     }
+}
+
+function wait(seconds,callback){
+    setTimeout(callback,seconds);
 }
 
 var whenPageLoads = function(){}
