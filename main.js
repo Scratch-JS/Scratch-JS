@@ -124,6 +124,10 @@ function wait(seconds,callback){
     setTimeout(callback,seconds);
 }
 
+function ask(text){
+    return prompt(text);
+}
+
 var whenPageLoads = function(){}
 
 var originOffsetX;
