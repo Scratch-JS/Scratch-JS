@@ -1,11 +1,12 @@
 var sprites = new Object();
-var spritesArray = new Array();
+var spritesArray = [];
 
 //sprite object constructor
 function Sprite(x, y, value){
     this.x = x;
     this.y = y;
     this.direction = 0;
+    spritesArray.push(this);
 
     //updates both x and y
     this.updateLocation = function(){
@@ -103,8 +104,6 @@ function Sprite(x, y, value){
         var deltaY = Math.sin(this.direction * Math.PI / 180) * amount;
         this.x += deltaX;
         this.y += deltaY;
-        console.log(deltaY);
-        console.log(deltaX);
         this.updateLocation();
     }
 
@@ -157,7 +156,12 @@ window.onresize = function(){
     originOffsetY = window.innerHeight / 2;
     maxX = originOffsetX;
     maxY = originOffsetY;
+    /*
     for(var sprite in sprites){
         sprites[sprite].updateLocation();
+    }
+    */
+    for(sprite of spritesArray){
+        sprite.updateLocation();
     }
 }
