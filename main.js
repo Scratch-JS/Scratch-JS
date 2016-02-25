@@ -107,6 +107,16 @@ function Sprite(x, y, value){
         console.log(deltaX);
         this.updateLocation();
     }
+
+    this.distanceTo = function(){
+        if(arguments[1]){
+            //if two arguments are provided the two arguments must be x, y coordinates
+            return calculateDistance(this.x, this.y, arguments[0], arguments[1]);
+        }else{
+            //if only one argument, argument must be a sprite
+            return calculateDistance(this.x, this.y, arguments[0].x, arguments[0].y)
+        }
+    }
 }
 
 function calculateDistance(x1,y1,x2, y2){
