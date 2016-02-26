@@ -53,6 +53,7 @@ function Sprite(x, y, value){
     }
 
     //TODO: Add option to animate if time parameter passed to function when called
+    /*
     this.goTo = function(x,y){
         var animationTime = arguments[2];
         if(animationTime){
@@ -61,6 +62,22 @@ function Sprite(x, y, value){
         }else{
             this.x = x;
             this.y = y;
+            this.updateLocation();
+        }
+    }
+    */
+
+    this.goTo = function () {
+        if (arguments[1]) {
+            //two arguments provided, the arguments are expected to be x and y respectivly. go to this x and y position
+            this.x = arguments[0];
+            this.y = arguments[1];
+            this.updateLocation();
+        }else if (arguments[0]) {
+            //only one argument provided, expected to be sprite. go to that sprites position
+            var spriteToGoTo = arguments[0];
+            this.x = spriteToGoTo.x;
+            this.y = spriteToGoTo.y;
             this.updateLocation();
         }
     }
