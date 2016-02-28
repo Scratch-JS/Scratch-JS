@@ -157,6 +157,10 @@ function forever(callback) {
     }, 1);
 }
 
+function stop(intervalToStop){
+    clearInterval(intervalToStop);
+}
+
 function ask(text){
     return prompt(text);
 }
