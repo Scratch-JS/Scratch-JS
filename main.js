@@ -52,21 +52,6 @@ function Sprite(x, y, value){
         document.body.appendChild(this.element);
     }
 
-    //TODO: Add option to animate if time parameter passed to function when called
-    /*
-    this.goTo = function(x,y){
-        var animationTime = arguments[2];
-        if(animationTime){
-            //Glide function: Animates the sprites movment -- Algorithm not yet complete
-            console.error("Scratch-JS: Animation is not yet supported");
-        }else{
-            this.x = x;
-            this.y = y;
-            this.updateLocation();
-        }
-    }
-    */
-
     this.goTo = function () {
         if (arguments[1]) {
             //two arguments provided, the arguments are expected to be x and y respectivly. go to this x and y position
