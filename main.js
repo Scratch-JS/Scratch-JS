@@ -150,6 +150,13 @@ function wait(seconds,callback){
     setTimeout(callback,seconds);
 }
 
+//use of forever is slow and not recommended, use while loop instead
+function forever(callback) {
+    return setInterval(function () {
+        callback();
+    }, 1);
+}
+
 function ask(text){
     return prompt(text);
 }
