@@ -1,4 +1,3 @@
-var sprites = {};
 var spritesArray = [];
 
 //sprite object constructor
@@ -115,6 +114,8 @@ function Sprite(x, y, value) {
             return calculateDistance(this.x, this.y, arguments[0].x, arguments[0].y)
         }
     }
+
+    return this;
 }
 
 function calculateDistance(x1, y1, x2, y2) {
