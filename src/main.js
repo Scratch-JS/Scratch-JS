@@ -34,7 +34,6 @@ function Sprite(x, y, value) {
 
     if (valueIsHtmlTag) {
         //if value is an html tag name
-        this.isCustom = false;
         var containingDiv = document.createElement("div");
         containingDiv.innerHTML = value;
         this.element = containingDiv.firstChild;
@@ -44,7 +43,6 @@ function Sprite(x, y, value) {
         console.error("Please enter a value for the new sprite(3rd argument)")
     } else {
         //value is not html or error so custom sprite, use value as img src
-        this.isCustom = true;
         this.element = document.createElement("img");
         this.element.src = value;
         this.updateLocation();
