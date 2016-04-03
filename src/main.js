@@ -38,8 +38,6 @@ function Sprite(x, y, value) {
         this.element = containingDiv.firstChild;
         this.updateLocation();
         document.body.appendChild(containingDiv);
-    } else if (value === undefined) {
-        console.error("Please enter a value for the new sprite(3rd argument)")
     } else {
         //value is not html or error so custom sprite, use value as img src
         this.element = document.createElement("img");
