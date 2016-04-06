@@ -47,7 +47,7 @@ function Sprite(x, y, value) {
     }
 
     this.goTo = function () {
-        if (arguments[1]) {
+        if (arguments[1] != undefined) {
             //two arguments provided, the arguments are expected to be x and y respectively. go to this x and y position
             this.x = arguments[0];
             this.y = arguments[1];
@@ -109,7 +109,7 @@ function Sprite(x, y, value) {
     };
 
     this.distanceTo = function () {
-        if (arguments[1]) {
+        if (arguments[1] != undefined) {
             //if two arguments are provided the two arguments must be x, y coordinates
             return calculateDistance(this.x, this.y, arguments[0], arguments[1]);
         } else {
