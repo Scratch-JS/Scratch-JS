@@ -111,7 +111,7 @@ function Sprite(x, y, value) {
             //if only one argument, argument must be a sprite
             return calculateDistance(this.x, this.y, arguments[0].x, arguments[0].y)
         }
-    }
+    };
 
     return this;
 }
