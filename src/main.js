@@ -118,6 +118,14 @@ function Sprite(x, y, value) {
         }
     };
 
+    this.show = function () {
+        this.element.style.display = "initial";
+    };
+
+    this.hide = function () {
+        this.element.style.display = "none";
+    };
+
     return this;
 }
 
