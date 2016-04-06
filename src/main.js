@@ -138,6 +138,7 @@ function forever(callback) {
     }, 1);
 }
 
+//Stops a forever
 function stop(intervalToStop) {
     clearInterval(intervalToStop);
 }
