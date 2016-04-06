@@ -103,6 +103,11 @@ function Sprite(x, y, value) {
         this.updateLocation();
     };
 
+    var calculateDistance = function(x1,y1,x2,y2){
+        //simple pythagorean theorem to find distance between points
+        return Math.sqrt(((x1 - x2) * (x1 - x2)) + ((y1 - y2) * (y1 - y2)));
+    };
+
     this.distanceTo = function () {
         if (arguments[1]) {
             //if two arguments are provided the two arguments must be x, y coordinates
@@ -114,11 +119,6 @@ function Sprite(x, y, value) {
     };
 
     return this;
-}
-
-function calculateDistance(x1, y1, x2, y2) {
-    //simple pythagorean theorem to find distance between points
-    return Math.sqrt(((x1 - x2) * (x1 - x2)) + ((y1 - y2) * (y1 - y2)))
 }
 
 function repeat(times, callback) {
