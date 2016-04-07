@@ -7,6 +7,9 @@ function Sprite(x, y, value) {
     this.direction = 0;
     spritesArray.push(this);
 
+    //Sometimes this get changed inside other scopes, so using another variable as refrence
+    var thisReference = this;
+
     //updates both x and y
     this.updateLocation = function () {
         this.element.style.left = (originOffsetX + this.x) + "px";
@@ -28,6 +31,12 @@ function Sprite(x, y, value) {
         this.element.style.transform = "rotate(" + (this.direction * -1) + "deg)";
     };
 
+    //noinspection JSUnusedGlobalSymbols
+    this.resize = function (scaleFactor) {
+        var originalWidth = this.element.clientWidth;
+        this.element.width = originalWidth * scaleFactor;
+    };
+
     //hack of a hack of a solution, but still works. Regex checks if value is an html tag
     var valueIsHtmlTag = (/<(br|basefont|hr|input|source|frame|param|area|meta|!--|col|link|option|base|img|wbr|!DOCTYPE).*?>|<(a|abbr|acronym|address|applet|article|aside|audio|b|bdi|bdo|big|blockquote|body|button|canvas|caption|center|cite|code|colgroup|command|datalist|dd|del|details|dfn|dialog|dir|div|dl|dt|em|embed|fieldset|figcaption|figure|font|footer|form|frameset|head|header|hgroup|h1|h2|h3|h4|h5|h6|html|i|iframe|ins|kbd|keygen|label|legend|li|map|mark|menu|meter|nav|noframes|noscript|object|ol|optgroup|output|p|pre|progress|q|rp|rt|ruby|s|samp|script|section|select|small|span|strike|strong|style|sub|summary|sup|table|tbody|td|textarea|tfoot|th|thead|time|title|tr|track|tt|u|ul|var|video).*?<\/\2>/i.test(value));
 
@@ -46,6 +55,13 @@ function Sprite(x, y, value) {
         this.updateLocation();
         document.body.appendChild(this.element);
         this.isImage = true;
+        //if size argument found, set it
+        if(arguments[3] !== undefined){
+            var scaleFactor = arguments[3];
+            this.element.onload = function () {
+                thisReference.resize(scaleFactor);
+            }
+        }
     }
 
     this.goTo = function () {
@@ -138,9 +154,6 @@ function Sprite(x, y, value) {
         this.element.style.display = "none";
     };
 
-    //This gets changed in the scope of a timeout, so I created a variable containing a reference to the this I want
-    var thisReference = this;
-
     //noinspection JSUnusedGlobalSymbols
     this.glideTo = function () {
         var length;
@@ -200,12 +213,6 @@ function Sprite(x, y, value) {
             document.body.appendChild(this.element);
             this.isImage = true;
         }
-    };
-
-    //noinspection JSUnusedGlobalSymbols
-    this.resize = function (scaleFactor) {
-        var originalWidth = this.element.clientWidth;
-        this.element.width = originalWidth * scaleFactor;
     };
 
     return this;
