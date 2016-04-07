@@ -126,6 +126,18 @@ function Sprite(x, y, value) {
         this.element.style.display = "none";
     };
 
+    //This gets changed in the scope of a timeout, so I created a variable containing a reference to the this I want
+    var thisReference = this;
+
+    this.glideTo = function (x, y, length) {
+        this.element.style.transition = "left "+length+"ms linear, top "+length+"ms linear";
+        this.goTo(x,y);
+        //After animation finishes, reset the sprites transition property
+        setTimeout(function () {
+            thisReference.element.style.transition = "left 0ms, top 0ms";
+        },length);
+    };
+
     return this;
 }
 
