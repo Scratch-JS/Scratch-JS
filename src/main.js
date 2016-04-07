@@ -130,8 +130,20 @@ function Sprite(x, y, value) {
 
     //This gets changed in the scope of a timeout, so I created a variable containing a reference to the this I want
     var thisReference = this;
+    
+    this.glideTo = function () {
+        var argumentsAreCoordinates = arguments[2] !== undefined;
+        if(argumentsAreCoordinates){
+            var x = arguments[0];
+            var y = arguments[1];
+            var length = arguments[2];
 
-    this.glideTo = function (x, y, length) {
+        }else{
+            var x = arguments[0].x;
+            var y = arguments[0].y;
+            var length = arguments[1];
+        }
+
         this.element.style.transition = "left "+length+"ms linear, top "+length+"ms linear";
         this.goTo(x,y);
         //After animation finishes, reset the sprites transition property
