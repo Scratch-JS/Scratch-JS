@@ -140,6 +140,39 @@ function Sprite(x, y, value) {
         },length);
     };
 
+    this.changeCostume = function (newCostume) {
+        var valueIsHtmlTag = (/<(br|basefont|hr|input|source|frame|param|area|meta|!--|col|link|option|base|img|wbr|!DOCTYPE).*?>|<(a|abbr|acronym|address|applet|article|aside|audio|b|bdi|bdo|big|blockquote|body|button|canvas|caption|center|cite|code|colgroup|command|datalist|dd|del|details|dfn|dialog|dir|div|dl|dt|em|embed|fieldset|figcaption|figure|font|footer|form|frameset|head|header|hgroup|h1|h2|h3|h4|h5|h6|html|i|iframe|ins|kbd|keygen|label|legend|li|map|mark|menu|meter|nav|noframes|noscript|object|ol|optgroup|output|p|pre|progress|q|rp|rt|ruby|s|samp|script|section|select|small|span|strike|strong|style|sub|summary|sup|table|tbody|td|textarea|tfoot|th|thead|time|title|tr|track|tt|u|ul|var|video).*?<\/\2>/i.test(newCostume));
+
+        if(!valueIsHtmlTag && this.isImage){
+            //Old sprite is image, new sprite is also image
+            this.element.src = newCostume;
+            this.isImage = true;
+        }else if(valueIsHtmlTag && this.isImage){
+            //Old sprite is image, new sprite is not
+            document.body.removeChild(this.element);
+            var containingDiv = document.createElement("div");
+            containingDiv.innerHTML = newCostume;
+            this.element = containingDiv.firstChild;
+            this.updateLocation();
+            document.body.appendChild(containingDiv);
+            this.isImage = false;
+        }else if(valueIsHtmlTag && !this.isImage){
+            //Old sprite is not an image, new one is also not image
+            var containingDiv = this.element.parentNode;
+            containingDiv.innerHTML = newCostume;
+            this.element = containingDiv.firstChild;
+            this.updateLocation();
+            this.isImage = false;
+        } else if (!valueIsHtmlTag && !this.isImage){
+            //Old sprite is not an image, new one is an image
+            document.body.removeChild(this.element.parentNode);
+            this.element = document.createElement("img");
+            this.element.src = newCostume;
+            this.updateLocation();
+            document.body.appendChild(this.element);
+            this.isImage = true;
+        }
+    };
 
     return this;
 }
