@@ -64,39 +64,46 @@ function Sprite(x, y, value) {
     };
 
     //sets the x of the sprite
+    //noinspection JSUnusedGlobalSymbols
     this.setXTo = function (newX) {
         this.x = newX;
         this.updateX();
     };
 
     //sets the y of the sprite
+    //noinspection JSUnusedGlobalSymbols
     this.setYTo = function (newY) {
         this.y = newY;
         this.updateY();
     };
 
     //changes the x of the sprite by an amount
+    //noinspection JSUnusedGlobalSymbols
     this.changeXBy = function (deltaX) {
         this.x += deltaX;
         this.updateX();
     };
 
     //changes the x of the sprite by an amount
+    //noinspection JSUnusedGlobalSymbols
     this.changeYBy = function (deltaY) {
         this.y += deltaY;
         this.updateY();
     };
 
+    //noinspection JSUnusedGlobalSymbols
     this.turn = function (degrees) {
         this.direction += degrees;
         this.updateRotation();
     };
 
+    //noinspection JSUnusedGlobalSymbols
     this.pointInDirection = function (direction) {
         this.direction = direction;
         this.updateRotation();
     };
 
+    //noinspection JSUnusedGlobalSymbols
     this.move = function (amount) {
         var deltaX = Math.cos(this.direction * Math.PI / 180) * amount;
         var deltaY = Math.sin(this.direction * Math.PI / 180) * amount;
@@ -110,6 +117,7 @@ function Sprite(x, y, value) {
         return Math.sqrt(((x1 - x2) * (x1 - x2)) + ((y1 - y2) * (y1 - y2)));
     };
 
+    //noinspection JSUnusedGlobalSymbols
     this.distanceTo = function () {
         if (arguments[1] != undefined) {
             //if two arguments are provided the two arguments must be x, y coordinates
@@ -120,28 +128,34 @@ function Sprite(x, y, value) {
         }
     };
 
+    //noinspection JSUnusedGlobalSymbols
     this.show = function () {
         this.element.style.display = "initial";
     };
 
+    //noinspection JSUnusedGlobalSymbols
     this.hide = function () {
         this.element.style.display = "none";
     };
 
     //This gets changed in the scope of a timeout, so I created a variable containing a reference to the this I want
     var thisReference = this;
-    
+
+    //noinspection JSUnusedGlobalSymbols
     this.glideTo = function () {
+        var length;
+        var y;
+        var x;
         var argumentsAreCoordinates = arguments[2] !== undefined;
         if(argumentsAreCoordinates){
-            var x = arguments[0];
-            var y = arguments[1];
-            var length = arguments[2];
+            x = arguments[0];
+            y = arguments[1];
+            length = arguments[2];
 
         }else{
-            var x = arguments[0].x;
-            var y = arguments[0].y;
-            var length = arguments[1];
+            x = arguments[0].x;
+            y = arguments[0].y;
+            length = arguments[1];
         }
 
         this.element.style.transition = "left "+length+"ms linear, top "+length+"ms linear";
@@ -152,7 +166,9 @@ function Sprite(x, y, value) {
         },length);
     };
 
+    //noinspection JSUnusedGlobalSymbols
     this.changeCostume = function (newCostume) {
+        var containingDiv;
         var valueIsHtmlTag = (/<(br|basefont|hr|input|source|frame|param|area|meta|!--|col|link|option|base|img|wbr|!DOCTYPE).*?>|<(a|abbr|acronym|address|applet|article|aside|audio|b|bdi|bdo|big|blockquote|body|button|canvas|caption|center|cite|code|colgroup|command|datalist|dd|del|details|dfn|dialog|dir|div|dl|dt|em|embed|fieldset|figcaption|figure|font|footer|form|frameset|head|header|hgroup|h1|h2|h3|h4|h5|h6|html|i|iframe|ins|kbd|keygen|label|legend|li|map|mark|menu|meter|nav|noframes|noscript|object|ol|optgroup|output|p|pre|progress|q|rp|rt|ruby|s|samp|script|section|select|small|span|strike|strong|style|sub|summary|sup|table|tbody|td|textarea|tfoot|th|thead|time|title|tr|track|tt|u|ul|var|video).*?<\/\2>/i.test(newCostume));
 
         if(!valueIsHtmlTag && this.isImage){
@@ -162,7 +178,7 @@ function Sprite(x, y, value) {
         }else if(valueIsHtmlTag && this.isImage){
             //Old sprite is image, new sprite is not
             document.body.removeChild(this.element);
-            var containingDiv = document.createElement("div");
+            containingDiv = document.createElement("div");
             containingDiv.innerHTML = newCostume;
             this.element = containingDiv.firstChild;
             this.updateLocation();
@@ -170,7 +186,7 @@ function Sprite(x, y, value) {
             this.isImage = false;
         }else if(valueIsHtmlTag && !this.isImage){
             //Old sprite is not an image, new one is also not image
-            var containingDiv = this.element.parentNode;
+            containingDiv = this.element.parentNode;
             containingDiv.innerHTML = newCostume;
             this.element = containingDiv.firstChild;
             this.updateLocation();
@@ -189,17 +205,20 @@ function Sprite(x, y, value) {
     return this;
 }
 
+//noinspection JSUnusedGlobalSymbols
 function repeat(times, callback) {
     for (var i = 0; i < times; i++) {
         callback();
     }
 }
 
+//noinspection JSUnusedGlobalSymbols
 function wait(seconds, callback) {
     setTimeout(callback, seconds);
 }
 
 //use of forever is slow and not recommended, use while loop instead
+//noinspection JSUnusedGlobalSymbols
 function forever(callback) {
     return setInterval(function () {
         callback();
@@ -207,14 +226,17 @@ function forever(callback) {
 }
 
 //Stops a forever
+//noinspection JSUnusedGlobalSymbols
 function stop(intervalToStop) {
     clearInterval(intervalToStop);
 }
 
+//noinspection JSUnusedGlobalSymbols
 function say(text){
     alert(text);
 }
 
+//noinspection JSUnusedGlobalSymbols
 function ask(text) {
     return prompt(text);
 }
