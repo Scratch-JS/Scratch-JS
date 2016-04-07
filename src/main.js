@@ -163,6 +163,10 @@ function stop(intervalToStop) {
     clearInterval(intervalToStop);
 }
 
+function say(text){
+    alert(text);
+}
+
 function ask(text) {
     return prompt(text);
 }
