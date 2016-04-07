@@ -38,12 +38,14 @@ function Sprite(x, y, value) {
         this.element = containingDiv.firstChild;
         this.updateLocation();
         document.body.appendChild(containingDiv);
+        this.isImage = false;
     } else {
         //value is not html or error so custom sprite, use value as img src
         this.element = document.createElement("img");
         this.element.src = value;
         this.updateLocation();
         document.body.appendChild(this.element);
+        this.isImage = true;
     }
 
     this.goTo = function () {
@@ -137,6 +139,7 @@ function Sprite(x, y, value) {
             thisReference.element.style.transition = "left 0ms, top 0ms";
         },length);
     };
+
 
     return this;
 }
