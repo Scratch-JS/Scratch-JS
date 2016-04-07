@@ -202,6 +202,12 @@ function Sprite(x, y, value) {
         }
     };
 
+    //noinspection JSUnusedGlobalSymbols
+    this.resize = function (scaleFactor) {
+        var originalWidth = this.element.clientWidth;
+        this.element.width = originalWidth * scaleFactor;
+    };
+
     return this;
 }
 
