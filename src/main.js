@@ -7,7 +7,7 @@ function Sprite(x, y, value) {
     this.direction = 0;
     spritesArray.push(this);
 
-    //Sometimes this get changed inside other scopes, so using another variable as refrence
+    //Sometimes this get changed inside other scopes, so using another variable as reference
     var thisReference = this;
 
     //updates both x and y
@@ -225,9 +225,12 @@ function repeat(times, callback) {
     }
 }
 
-//noinspection JSUnusedGlobalSymbols
-function wait(seconds, callback) {
-    setTimeout(callback, seconds);
+function wait(length){
+    return new Promise(function (resolve) {
+        setTimeout(function () {
+            resolve();
+        },length)
+    });
 }
 
 //use of forever is slow and not recommended, use while loop instead
