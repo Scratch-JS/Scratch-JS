@@ -5,6 +5,7 @@ function Sprite(x, y, value) {
     this.x = x;
     this.y = y;
     this.direction = 0;
+    this.isHidden = false;
     spritesArray.push(this);
 
     //Sometimes this get changed inside other scopes, so using another variable as reference
@@ -137,10 +138,12 @@ function Sprite(x, y, value) {
 
     this.show = function () {
         this.element.style.display = "initial";
+        this.isHidden = false;
     };
 
     this.hide = function () {
         this.element.style.display = "none";
+        this.isHidden = true;
     };
 
     this.glideTo = function () {
