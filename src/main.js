@@ -246,11 +246,20 @@ var originOffsetX;
 var originOffsetY;
 var maxX;
 var maxY;
+
+var bodyDiv;
 window.onload = function () {
     originOffsetX = window.innerWidth / 2;
     originOffsetY = window.innerHeight / 2;
     maxX = originOffsetX;
     maxY = originOffsetY;
+
+    bodyDiv = document.createElement("div");
+    bodyDiv.style.width = originOffsetX * 2 + "px";
+    bodyDiv.style.height = originOffsetY * 2 + "px";
+    bodyDiv.style.left = "0px";
+    document.body.appendChild(bodyDiv);
+
     whenPageLoads();
 };
 
@@ -262,4 +271,39 @@ window.onresize = function () {
     for (var sprite of spritesArray) {
         sprite.updateLocation();
     }
+
+    bodyDiv.style.width = originOffsetX * 2 + "px";
+    bodyDiv.style.height = originOffsetY * 2 + "px";
+
+};
+
+var mouse = {
+    ready: false
+};
+
+mouse.setCostume = function (costumeURL) {
+    var mouseSprite;
+    var args = arguments;
+    document.body.style.cursor = "none";
+
+    var checkMouseReady = forever(function () {
+        if (mouse.ready) {
+            stop(checkMouseReady);
+
+            if (args[1] !== undefined) {
+                mouseSprite = new Sprite(0, 0, costumeURL, args[1]);
+            } else {
+                mouseSprite = new Sprite(0, 0, costumeURL);
+            }
+            forever(function () {
+                mouseSprite.goTo(mouse);
+            })
+        }
+    });
+};
+
+document.onmousemove = function () {
+    mouse.x = event.x - originOffsetX;
+    mouse.y = originOffsetY - event.y;
+    mouse.ready = true;
 };
