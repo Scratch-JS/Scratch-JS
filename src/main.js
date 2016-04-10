@@ -259,11 +259,6 @@ window.onresize = function () {
     originOffsetY = window.innerHeight / 2;
     maxX = originOffsetX;
     maxY = originOffsetY;
-    /*
-     for(var sprite in sprites){
-     sprites[sprite].updateLocation();
-     }
-     */
     for (var sprite of spritesArray) {
         sprite.updateLocation();
     }
