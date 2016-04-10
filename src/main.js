@@ -31,7 +31,6 @@ function Sprite(x, y, value) {
         this.element.style.transform = "rotate(" + (this.direction * -1) + "deg)";
     };
 
-    //noinspection JSUnusedGlobalSymbols
     this.resize = function (scaleFactor) {
         var originalWidth = this.element.clientWidth;
         this.element.width = originalWidth * scaleFactor;
@@ -56,7 +55,7 @@ function Sprite(x, y, value) {
         document.body.appendChild(this.element);
         this.isImage = true;
         //if size argument found, set it
-        if(arguments[3] !== undefined){
+        if (arguments[3] !== undefined) {
             var scaleFactor = arguments[3];
             this.element.onload = function () {
                 thisReference.resize(scaleFactor);
@@ -80,46 +79,39 @@ function Sprite(x, y, value) {
     };
 
     //sets the x of the sprite
-    //noinspection JSUnusedGlobalSymbols
     this.setXTo = function (newX) {
         this.x = newX;
         this.updateX();
     };
 
     //sets the y of the sprite
-    //noinspection JSUnusedGlobalSymbols
     this.setYTo = function (newY) {
         this.y = newY;
         this.updateY();
     };
 
     //changes the x of the sprite by an amount
-    //noinspection JSUnusedGlobalSymbols
     this.changeXBy = function (deltaX) {
         this.x += deltaX;
         this.updateX();
     };
 
     //changes the x of the sprite by an amount
-    //noinspection JSUnusedGlobalSymbols
     this.changeYBy = function (deltaY) {
         this.y += deltaY;
         this.updateY();
     };
 
-    //noinspection JSUnusedGlobalSymbols
     this.turn = function (degrees) {
         this.direction += degrees;
         this.updateRotation();
     };
 
-    //noinspection JSUnusedGlobalSymbols
     this.pointInDirection = function (direction) {
         this.direction = direction;
         this.updateRotation();
     };
 
-    //noinspection JSUnusedGlobalSymbols
     this.move = function (amount) {
         var deltaX = Math.cos(this.direction * Math.PI / 180) * amount;
         var deltaY = Math.sin(this.direction * Math.PI / 180) * amount;
@@ -128,12 +120,11 @@ function Sprite(x, y, value) {
         this.updateLocation();
     };
 
-    var calculateDistance = function(x1,y1,x2,y2){
+    var calculateDistance = function (x1, y1, x2, y2) {
         //simple pythagorean theorem to find distance between points
         return Math.sqrt(((x1 - x2) * (x1 - x2)) + ((y1 - y2) * (y1 - y2)));
     };
 
-    //noinspection JSUnusedGlobalSymbols
     this.distanceTo = function () {
         if (arguments[1] != undefined) {
             //if two arguments are provided the two arguments must be x, y coordinates
@@ -144,51 +135,47 @@ function Sprite(x, y, value) {
         }
     };
 
-    //noinspection JSUnusedGlobalSymbols
     this.show = function () {
         this.element.style.display = "initial";
     };
 
-    //noinspection JSUnusedGlobalSymbols
     this.hide = function () {
         this.element.style.display = "none";
     };
 
-    //noinspection JSUnusedGlobalSymbols
     this.glideTo = function () {
         var length;
         var y;
         var x;
         var argumentsAreCoordinates = arguments[2] !== undefined;
-        if(argumentsAreCoordinates){
+        if (argumentsAreCoordinates) {
             x = arguments[0];
             y = arguments[1];
             length = arguments[2];
 
-        }else{
+        } else {
             x = arguments[0].x;
             y = arguments[0].y;
             length = arguments[1];
         }
 
-        this.element.style.transition = "left "+length+"ms linear, top "+length+"ms linear";
-        this.goTo(x,y);
+        this.element.style.transition = "left " + length + "ms linear, top " + length + "ms linear";
+        this.goTo(x, y);
         //After animation finishes, reset the sprites transition property
         setTimeout(function () {
             thisReference.element.style.transition = "left 0ms, top 0ms";
-        },length);
+        }, length);
     };
 
-    //noinspection JSUnusedGlobalSymbols
     this.changeCostume = function (newCostume) {
         var containingDiv;
         var valueIsHtmlTag = (/<(br|basefont|hr|input|source|frame|param|area|meta|!--|col|link|option|base|img|wbr|!DOCTYPE).*?>|<(a|abbr|acronym|address|applet|article|aside|audio|b|bdi|bdo|big|blockquote|body|button|canvas|caption|center|cite|code|colgroup|command|datalist|dd|del|details|dfn|dialog|dir|div|dl|dt|em|embed|fieldset|figcaption|figure|font|footer|form|frameset|head|header|hgroup|h1|h2|h3|h4|h5|h6|html|i|iframe|ins|kbd|keygen|label|legend|li|map|mark|menu|meter|nav|noframes|noscript|object|ol|optgroup|output|p|pre|progress|q|rp|rt|ruby|s|samp|script|section|select|small|span|strike|strong|style|sub|summary|sup|table|tbody|td|textarea|tfoot|th|thead|time|title|tr|track|tt|u|ul|var|video).*?<\/\2>/i.test(newCostume));
 
-        if(!valueIsHtmlTag && this.isImage){
+        if (!valueIsHtmlTag && this.isImage) {
             //Old sprite is image, new sprite is also image
             this.element.src = newCostume;
             this.isImage = true;
-        }else if(valueIsHtmlTag && this.isImage){
+        } else if (valueIsHtmlTag && this.isImage) {
             //Old sprite is image, new sprite is not
             document.body.removeChild(this.element);
             containingDiv = document.createElement("div");
@@ -197,14 +184,14 @@ function Sprite(x, y, value) {
             this.updateLocation();
             document.body.appendChild(containingDiv);
             this.isImage = false;
-        }else if(valueIsHtmlTag && !this.isImage){
+        } else if (valueIsHtmlTag && !this.isImage) {
             //Old sprite is not an image, new one is also not image
             containingDiv = this.element.parentNode;
             containingDiv.innerHTML = newCostume;
             this.element = containingDiv.firstChild;
             this.updateLocation();
             this.isImage = false;
-        } else if (!valueIsHtmlTag && !this.isImage){
+        } else if (!valueIsHtmlTag && !this.isImage) {
             //Old sprite is not an image, new one is an image
             document.body.removeChild(this.element.parentNode);
             this.element = document.createElement("img");
@@ -218,23 +205,21 @@ function Sprite(x, y, value) {
     return this;
 }
 
-//noinspection JSUnusedGlobalSymbols
 function repeat(times, callback) {
     for (var i = 0; i < times; i++) {
         callback();
     }
 }
 
-function wait(length){
+function wait(length) {
     return new Promise(function (resolve) {
         setTimeout(function () {
             resolve();
-        },length)
+        }, length)
     });
 }
 
 //use of forever is slow and not recommended, use while loop instead
-//noinspection JSUnusedGlobalSymbols
 function forever(callback) {
     return setInterval(function () {
         callback();
@@ -242,17 +227,14 @@ function forever(callback) {
 }
 
 //Stops a forever
-//noinspection JSUnusedGlobalSymbols
 function stop(intervalToStop) {
     clearInterval(intervalToStop);
 }
 
-//noinspection JSUnusedGlobalSymbols
-function say(text){
+function say(text) {
     alert(text);
 }
 
-//noinspection JSUnusedGlobalSymbols
 function ask(text) {
     return prompt(text);
 }
