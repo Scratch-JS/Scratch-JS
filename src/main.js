@@ -284,25 +284,62 @@ var mouse = {
     ready: false
 };
 
-mouse.setCostume = function (costumeURL) {
+mouse.setCostume = function (costumeName) {
     var mouseSprite;
     var args = arguments;
-    document.body.style.cursor = "none";
 
-    var checkMouseReady = forever(function () {
-        if (mouse.ready) {
-            stop(checkMouseReady);
+    var isCustom = !(/alias|all-scroll|auto|cell|context-menu|col-resize|copy|crosshair|default|e-resize|ew-resize|grab|grabbing|help|move|n-resize|ne-resize|nesw-resize|ns-resize|nw-resize|nwse-resize|no-drop|none|not-allowed|pointer|progress|row-resize|s-resize|se-resize|sw-resize|text|vertical-text|w-resize|wait|zoom-in|zoom-out|initial/).test(costumeName);
+    console.log("Is custom: "+isCustom);
 
-            if (args[1] !== undefined) {
-                mouseSprite = new Sprite(0, 0, costumeURL, args[1]);
-            } else {
-                mouseSprite = new Sprite(0, 0, costumeURL);
-            }
-            forever(function () {
-                mouseSprite.goTo(mouse);
-            })
+    if(isCustom){
+        //if new costume is custom, make the real cursor hidden everywhere
+        document.body.style.cursor = "none";
+
+        //make it hidden when on top of other elements
+        for(var i = 0; i < document.body.getElementsByTagName("*").length; i++){
+            console.log(document.body.getElementsByTagName("*")[i]);
+            document.body.getElementsByTagName("*")[i].style.cursor = "none";
         }
-    });
+
+        //When we get the mouse coordinates, create our fake mouse
+        var checkMouseReady = forever(function () {
+            if (mouse.ready) {
+
+                //stop checking for the mouse.ready
+                stop(checkMouseReady);
+
+                //If size argument is included pass it on when creating the fake mouse's sprite
+                if (args[1] !== undefined) {
+                    //create the fake mouse without a size argument
+                    mouseSprite = new Sprite(0, 0, costumeName, args[1]);
+                } else {
+                    //create the fake mouse without a size argument
+                    mouseSprite = new Sprite(0, 0, costumeName);
+                }
+
+                /*
+                The following css needs to exist:
+                     #cursorImage{
+                        pointer-events: none
+                     }
+                 */
+
+                //javascript doesn't let me modify this directly so I use a css id to get around it
+                mouseSprite.element.id = "cursorImage";
+                //make sure that dragging the mouse doesn't drag the mouse sprite
+                mouseSprite.element.draggable = "none";
+
+                //Forever go to the mouse
+                forever(function () {
+                    mouseSprite.goTo(mouse);
+                })
+            }
+        });
+    }else{
+        //If it's not a custom sprite, change the cursor to the cursor type provided as a parameter
+        document.body.style.cursor = costumeName;
+    }
+
 };
 
 document.onmousemove = function () {
