@@ -32,18 +32,18 @@
 
             //updates both x and y
             this.updateLocation = function () {
-                this.element.style.left = (originOffsetX + this.x) + "px";
-                this.element.style.top = (originOffsetY - this.y) + "px";
+                this.element.style.left = (page.originOffsetX + this.x) + "px";
+                this.element.style.top = (page.originOffsetY - this.y) + "px";
             };
 
             //updates only x
             this.updateX = function () {
-                this.element.style.left = (originOffsetX + this.x) + "px";
+                this.element.style.left = (page.originOffsetX + this.x) + "px";
             };
 
             //updates only y
             this.updateY = function () {
-                this.element.style.top = (originOffsetY - this.y) + "px";
+                this.element.style.top = (page.originOffsetY - this.y) + "px";
             };
 
             this.updateRotation = function () {
@@ -182,7 +182,11 @@
                 }
 
                 this.element.style.transition = "left " + length + "ms linear, top " + length + "ms linear";
-                this.goTo(x, y);
+
+                wait(1).then(function () {
+                    thisReference.goTo(x, y);
+                });
+
                 //After animation finishes, reset the sprites transition property
                 setTimeout(function () {
                     thisReference.element.style.transition = "left 0ms, top 0ms";
@@ -264,21 +268,18 @@
         var whenPageLoads = function () {
         };
 
-        var originOffsetX;
-        var originOffsetY;
-        var maxX;
-        var maxY;
+        var page = {};
 
         var bodyDiv;
         window.onload = function () {
-            originOffsetX = window.innerWidth / 2;
-            originOffsetY = window.innerHeight / 2;
-            maxX = originOffsetX;
-            maxY = originOffsetY;
+            page.originOffsetX = window.innerWidth / 2;
+            page.originOffsetY = window.innerHeight / 2;
+            page.maxX = page.originOffsetX;
+            page.maxY = page.originOffsetY;
 
             bodyDiv = document.createElement("div");
-            bodyDiv.style.width = originOffsetX * 2 + "px";
-            bodyDiv.style.height = originOffsetY * 2 + "px";
+            bodyDiv.style.width = page.originOffsetX * 2 + "px";
+            bodyDiv.style.height = page.originOffsetY * 2 + "px";
             bodyDiv.style.left = "0px";
             document.body.appendChild(bodyDiv);
 
@@ -286,16 +287,16 @@
         };
 
         window.onresize = function () {
-            originOffsetX = window.innerWidth / 2;
-            originOffsetY = window.innerHeight / 2;
-            maxX = originOffsetX;
-            maxY = originOffsetY;
+            page.originOffsetX = window.innerWidth / 2;
+            page.originOffsetY = window.innerHeight / 2;
+            page.maxX = page.originOffsetX;
+            page.maxY = page.originOffsetY;
             for (var sprite of spritesArray) {
                 sprite.updateLocation();
             }
 
-            bodyDiv.style.width = originOffsetX * 2 + "px";
-            bodyDiv.style.height = originOffsetY * 2 + "px";
+            bodyDiv.style.width = page.originOffsetX * 2 + "px";
+            bodyDiv.style.height = page.originOffsetY * 2 + "px";
 
         };
 
@@ -308,14 +309,14 @@
             var args = arguments;
 
             var isCustom = !(/alias|all-scroll|auto|cell|context-menu|col-resize|copy|crosshair|default|e-resize|ew-resize|grab|grabbing|help|move|n-resize|ne-resize|nesw-resize|ns-resize|nw-resize|nwse-resize|no-drop|none|not-allowed|pointer|progress|row-resize|s-resize|se-resize|sw-resize|text|vertical-text|w-resize|wait|zoom-in|zoom-out|initial/).test(costumeName);
-            console.log("Is custom: "+isCustom);
+            console.log("Is custom: " + isCustom);
 
-            if(isCustom){
+            if (isCustom) {
                 //if new costume is custom, make the real cursor hidden everywhere
                 document.body.style.cursor = "none";
 
                 //make it hidden when on top of other elements
-                for(var i = 0; i < document.body.getElementsByTagName("*").length; i++){
+                for (var i = 0; i < document.body.getElementsByTagName("*").length; i++) {
                     console.log(document.body.getElementsByTagName("*")[i]);
                     document.body.getElementsByTagName("*")[i].style.cursor = "none";
                 }
@@ -336,13 +337,6 @@
                             mouseSprite = new Sprite(0, 0, costumeName);
                         }
 
-                        /*
-                         The following css needs to exist:
-                         #cursorImage{
-                         pointer-events: none
-                         }
-                         */
-
                         //javascript doesn't let me modify this directly so I use a css id to get around it
                         mouseSprite.element.id = "cursorImage";
                         //make sure that dragging the mouse doesn't drag the mouse sprite
@@ -354,7 +348,7 @@
                         })
                     }
                 });
-            }else{
+            } else {
                 //If it's not a custom sprite, change the cursor to the cursor type provided as a parameter
                 document.body.style.cursor = costumeName;
             }
@@ -362,8 +356,8 @@
         };
 
         document.onmousemove = function () {
-            mouse.x = event.x - originOffsetX;
-            mouse.y = originOffsetY - event.y;
+            mouse.x = event.x - page.originOffsetX;
+            mouse.y = page.originOffsetY - event.y;
             mouse.ready = true;
         };
     </script>
