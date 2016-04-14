@@ -24,14 +24,14 @@
         request.open("GET", "index.sjs");
         request.send();
         //when ready state changes and the new state, shows success, get the code and store it in the code variable
-        request.onreadystatechange = function(){
-            if(request.readyState === 4 && request.status == 200){
+        request.onreadystatechange = function () {
+            if (request.readyState === 4 && request.status == 200) {
                 code = request.responseText;
                 transpileCode();
             }
         };
 
-        function whenCodeLoads(){
+        function whenCodeLoads() {
         }
 
         function transpileCode() {
@@ -313,7 +313,7 @@
             bodyDiv.style.height = page.originOffsetY * 2 + "px";
             bodyDiv.style.left = "0px";
             document.body.appendChild(bodyDiv);
-             whenCodeLoads = function () {
+            whenCodeLoads = function () {
                 whenPageLoads();
             }
         };
