@@ -37,6 +37,7 @@
         function transpileCode() {
             //Transpile starting from index 0
             transpileCallbackFromIndex(0);
+            transpileAnonFromIndex(0);
             evalCode();
         }
 
@@ -47,6 +48,17 @@
                 code = code.substring(0,indexOfCallback) + "function()" + code.substring(indexOfCallback, code.length);
                 transpileCallbackFromIndex(indexOfCallback + 1);
             }
+        }
+
+        function transpileAnonFromIndex(startingIndex) {
+            var index = code.indexOf("{", startingIndex);
+            if(index !== -1){
+                if(code.charAt(index - 1) !== ")" && code.charAt(index - 2) !== ")"){
+                    code = code.substring(0,index) + " = function()" + code.substring(index, code.length);
+                }
+                transpileAnonFromIndex(index + 1);
+            }
+
         }
 
         function evalCode() {
