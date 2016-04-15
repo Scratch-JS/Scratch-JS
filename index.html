@@ -43,18 +43,18 @@
 
         //recursive function to go through each callback and transpile them to JS
         function transpileCallbackFromIndex(currentIndex) {
-            var indexOfCallback = code.indexOf("({",currentIndex) + 1;
-            if(indexOfCallback != 0){
-                code = code.substring(0,indexOfCallback) + "function()" + code.substring(indexOfCallback, code.length);
+            var indexOfCallback = code.indexOf("({", currentIndex) + 1;
+            if (indexOfCallback != 0) {
+                code = code.substring(0, indexOfCallback) + "function()" + code.substring(indexOfCallback, code.length);
                 transpileCallbackFromIndex(indexOfCallback + 1);
             }
         }
 
         function transpileAnonFromIndex(startingIndex) {
             var index = code.indexOf("{", startingIndex);
-            if(index !== -1){
-                if(code.charAt(index - 1) !== ")" && code.charAt(index - 2) !== ")"){
-                    code = code.substring(0,index) + " = function()" + code.substring(index, code.length);
+            if (index !== -1) {
+                if (code.charAt(index - 1) !== ")" && code.charAt(index - 2) !== ")") {
+                    code = code.substring(0, index) + " = function()" + code.substring(index, code.length);
                 }
                 transpileAnonFromIndex(index + 1);
             }
