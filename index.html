@@ -344,10 +344,9 @@
             page.originOffsetY = window.innerHeight / 2;
             page.maxX = page.originOffsetX;
             page.maxY = page.originOffsetY;
-            for (var sprite of spritesArray) {
-                sprite.updateLocation();
+            for (var spriteIndex in spritesArray) {
+                spritesArray[spriteIndex].updateLocation();
             }
-
             bodyDiv.style.width = page.originOffsetX * 2 + "px";
             bodyDiv.style.height = page.originOffsetY * 2 + "px";
 
