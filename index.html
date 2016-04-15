@@ -16,9 +16,9 @@
             pointer-events: none
         }
     </style>
-
-    <!--Scratch-JS Transpiler Code-->
     <script>
+        /*Transpiler Code*/
+
         var code = "";
         var request = new XMLHttpRequest();
         request.open("GET", "index.sjs");
@@ -65,10 +65,9 @@
             eval(code);
             whenCodeLoads();
         }
-    </script>
 
-    <!--Main Scratch-JS Code-->
-    <script>
+        /*Main Scratch-JS Code*/
+
         var spritesArray = [];
 
         //sprite object constructor
