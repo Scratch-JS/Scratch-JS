@@ -36,14 +36,17 @@
 
         function transpileCode() {
             //Transpile starting from index 0
-            transpileNextCallback(0);
+            transpileCallbackFromIndex(0);
             evalCode();
         }
 
         //recursive function to go through each callback and transpile them to JS
-        function transpileNextCallback(currentIndex) {
+        function transpileCallbackFromIndex(currentIndex) {
             var indexOfCallback = code.indexOf("({",currentIndex) + 1;
-            code = code.substring(0,indexOfCallback) + "function()" + code.substring(indexOfCallback, code.length)
+            if(indexOfCallback != 0){
+                code = code.substring(0,indexOfCallback) + "function()" + code.substring(indexOfCallback, code.length);
+                transpileCallbackFromIndex(indexOfCallback + 1);
+            }
         }
 
         function evalCode() {
