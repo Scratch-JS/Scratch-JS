@@ -17,19 +17,27 @@
         }
     </style>
     <script>
+        var needToAppendScript;
         /*Transpiler Code*/
+        if (location.protocol === "file:"){
+            //If page is served through local file system, fail gracefully
+            console.warn("Scratch-JS is not running on localhost or http, anonymous callbacks now need to be explicitly declared");
+            needToAppendScript = true;
+        }else{
+            //Otherwise, do everything normally
+            var code = "";
+            var request = new XMLHttpRequest();
+            request.open("GET", "index.sjs");
+            request.send();
+            //when ready state changes and the new state, shows success, get the code and store it in the code variable
+            request.onreadystatechange = function () {
+                if (request.readyState === 4 && request.status == 200) {
+                    code = request.responseText;
+                    transpileCode();
+                }
+            };
+        }
 
-        var code = "";
-        var request = new XMLHttpRequest();
-        request.open("GET", "index.sjs");
-        request.send();
-        //when ready state changes and the new state, shows success, get the code and store it in the code variable
-        request.onreadystatechange = function () {
-            if (request.readyState === 4 && request.status == 200) {
-                code = request.responseText;
-                transpileCode();
-            }
-        };
 
         function whenCodeLoads() {
         }
@@ -333,6 +341,13 @@
             bodyDiv.style.height = page.originOffsetY * 2 + "px";
             bodyDiv.style.left = "0px";
             document.body.appendChild(bodyDiv);
+
+            if(needToAppendScript){
+                var scriptToAppend = document.createElement("script");
+                scriptToAppend.src = "index.sjs";
+                document.body.appendChild(scriptToAppend);
+            }
+
             whenCodeLoads = function () {
                 whenPageLoads();
             }
