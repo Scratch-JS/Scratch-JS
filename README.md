@@ -13,7 +13,9 @@ That's where Scratch-JS comes in. Scratch-JS is a JavaScript library that focuse
 Scratch-JS is an Open Source project. As such, it relies on contributions from developers. If you are looking to contribute you can do so by forking this repository and sending a pull request.
 
 #Examples
+With Comments
 ```javascript
+//when the page loads (similer to "When Green Flag is Pressed"
 whenPageLoads{
     //create a new sprite at position (0,0)
     mySprite = new Sprite("sprite.jpg", 0, 0);
@@ -27,6 +29,17 @@ whenPageLoads{
     //wait 1000ms (1 second)
     wait(1000).then({
        //go to (100, 0) - 100 pixels from the center
+       mySprite.goTo(100,0); 
+    })
+}
+```
+Without comments:
+```javascript
+whenPageLoads{
+    mySprite = new Sprite("sprite.jpg", 0, 0);
+    mySprite.turn(45)
+    mySprite.move(50)
+    wait(1000).then({
        mySprite.goTo(100,0); 
     })
 }
