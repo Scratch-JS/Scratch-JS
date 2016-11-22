@@ -344,6 +344,11 @@ window.onload = function() {
         scriptToAppend.src = "index.sjs";
         document.body.appendChild(scriptToAppend);
     }
+    //add styles
+    var style = document.createElement("style");
+    style.innerHTML = "* { position: absolute; } body { margin: 0; opacity: 0; overflow: hidden; } #cursorImage { pointer-events: none }";
+    document.getElementsByTagName('head')[0].appendChild(style);
+
     whenCodeLoads = function() {
         document.body.style.opacity = "1";
         whenPageLoads();
