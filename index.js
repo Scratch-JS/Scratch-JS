@@ -99,13 +99,14 @@ function Sprite(x, y, value) {
         document.body.appendChild(this.element);
 
         var that = this;
+        var scaleFactor = arguments[3];
+
         this.element.onload = function() {
             that.updateLocation();
             that.isImage = true;
 
             //if size argument found, set it
-            if (arguments[3] !== undefined) {
-                var scaleFactor = arguments[3];
+            if (scaleFactor) {
                 thisReference.resize(scaleFactor);
             }
         }
