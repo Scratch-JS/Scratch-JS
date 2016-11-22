@@ -102,13 +102,13 @@ function Sprite(x, y, value) {
         var scaleFactor = arguments[3];
 
         this.element.onload = function() {
-            that.updateLocation();
-            that.isImage = true;
-
             //if size argument found, set it
             if (scaleFactor) {
                 thisReference.resize(scaleFactor);
             }
+
+            that.updateLocation();
+            that.isImage = true;
         }
     }
     this.goTo = function() {
