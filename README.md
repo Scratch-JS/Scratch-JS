@@ -18,7 +18,7 @@ With Comments
 //when the page loads (similer to "When Green Flag is Pressed"
 whenPageLoads{
     //create a new sprite at position (0,0)
-    mySprite = new Sprite("sprite.jpg", 0, 0);
+    mySprite = new Sprite(0, 0, "sprite.jpg");
     
     //turn the sprite counter-clockwise 45 degrees
     mySprite.turn(45)
@@ -36,7 +36,7 @@ whenPageLoads{
 Without comments:
 ```javascript
 whenPageLoads{
-    mySprite = new Sprite("sprite.jpg", 0, 0);
+    mySprite = new Sprite(0, 0, "sprite.jpg");
     mySprite.turn(45)
     mySprite.move(50)
     wait(1000).then({
