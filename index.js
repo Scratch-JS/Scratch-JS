@@ -97,6 +97,7 @@ function Sprite(x, y, value) {
         this.element = document.createElement("img");
         this.element.src = value;
         document.body.appendChild(this.element);
+        this.element.style.visibility = "hidden";
 
         var that = this;
         var scaleFactor = arguments[3];
@@ -109,6 +110,7 @@ function Sprite(x, y, value) {
 
             that.updateLocation();
             that.isImage = true;
+            that.element.style.visibility = "initial";
         }
     }
     this.goTo = function() {
@@ -343,6 +345,7 @@ window.onload = function() {
         document.body.appendChild(scriptToAppend);
     }
     whenCodeLoads = function() {
+        document.body.style.opacity = "1";
         whenPageLoads();
     }
 };
