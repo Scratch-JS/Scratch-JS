@@ -63,16 +63,16 @@ function Sprite(x, y, value) {
     var thisReference = this;
     //updates both x and y
     this.updateLocation = function() {
-        this.element.style.left = (page.originOffsetX + this.x) + "px";
-        this.element.style.top = (page.originOffsetY - this.y) + "px";
+        this.element.style.left = (page.originOffsetX + this.x - (this.element.clientWidth / 2)) + "px";
+        this.element.style.top = (page.originOffsetY - this.y - (this.element.clientHeight / 2)) + "px";
     };
     //updates only x
     this.updateX = function() {
-        this.element.style.left = (page.originOffsetX + this.x) + "px";
+        this.element.style.left = (page.originOffsetX + this.x - (this.element.clientWidth / 2)) + "px";
     };
     //updates only y
     this.updateY = function() {
-        this.element.style.top = (page.originOffsetY - this.y) + "px";
+        this.element.style.top = (page.originOffsetY - this.y - (this.element.clientHeight / 2)) + "px";
     };
     this.updateRotation = function() {
         //by default turns clockwise, added "-" to make it turn counterclockwise like in geometry
@@ -96,13 +96,16 @@ function Sprite(x, y, value) {
         //value is not html or error so custom sprite, use value as img src
         this.element = document.createElement("img");
         this.element.src = value;
-        this.updateLocation();
         document.body.appendChild(this.element);
-        this.isImage = true;
-        //if size argument found, set it
-        if (arguments[3] !== undefined) {
-            var scaleFactor = arguments[3];
-            this.element.onload = function() {
+
+        var that = this;
+        this.element.onload = function() {
+            that.updateLocation();
+            that.isImage = true;
+
+            //if size argument found, set it
+            if (arguments[3] !== undefined) {
+                var scaleFactor = arguments[3];
                 thisReference.resize(scaleFactor);
             }
         }
@@ -270,41 +273,6 @@ function ask(text) {
     return prompt(text);
 }
 
-var whenPageLoads = function() {};
-var page = {};
-var bodyDiv;
-window.onload = function() {
-    page.originOffsetX = window.innerWidth / 2;
-    page.originOffsetY = window.innerHeight / 2;
-    page.maxX = page.originOffsetX;
-    page.maxY = page.originOffsetY;
-    bodyDiv = document.createElement("div");
-    bodyDiv.style.width = page.originOffsetX * 2 + "px";
-    bodyDiv.style.height = page.originOffsetY * 2 + "px";
-    bodyDiv.style.left = "0px";
-    document.body.appendChild(bodyDiv);
-    if (needToAppendScript) {
-        var scriptToAppend = document.createElement("script");
-        scriptToAppend.src = "index.sjs";
-        document.body.appendChild(scriptToAppend);
-    }
-    whenCodeLoads = function() {
-        whenPageLoads();
-    }
-};
-
-window.onresize = function() {
-    page.originOffsetX = window.innerWidth / 2;
-    page.originOffsetY = window.innerHeight / 2;
-    page.maxX = page.originOffsetX;
-    page.maxY = page.originOffsetY;
-    for (var spriteIndex in spritesArray) {
-        spritesArray[spriteIndex].updateLocation();
-    }
-    bodyDiv.style.width = page.originOffsetX * 2 + "px";
-    bodyDiv.style.height = page.originOffsetY * 2 + "px";
-};
-
 var mouse = {
     ready: false
 };
@@ -353,4 +321,39 @@ document.onmousemove = function() {
     mouse.x = event.x - page.originOffsetX;
     mouse.y = page.originOffsetY - event.y;
     mouse.ready = true;
+};
+
+var whenPageLoads = function() {};
+var page = {};
+var bodyDiv;
+window.onload = function() {
+    page.originOffsetX = window.innerWidth / 2;
+    page.originOffsetY = window.innerHeight / 2;
+    page.maxX = page.originOffsetX;
+    page.maxY = page.originOffsetY;
+    bodyDiv = document.createElement("div");
+    bodyDiv.style.width = page.originOffsetX * 2 + "px";
+    bodyDiv.style.height = page.originOffsetY * 2 + "px";
+    bodyDiv.style.left = "0px";
+    document.body.appendChild(bodyDiv);
+    if (needToAppendScript) {
+        var scriptToAppend = document.createElement("script");
+        scriptToAppend.src = "index.sjs";
+        document.body.appendChild(scriptToAppend);
+    }
+    whenCodeLoads = function() {
+        whenPageLoads();
+    }
+};
+
+window.onresize = function() {
+    page.originOffsetX = window.innerWidth / 2;
+    page.originOffsetY = window.innerHeight / 2;
+    page.maxX = page.originOffsetX;
+    page.maxY = page.originOffsetY;
+    for (var spriteIndex in spritesArray) {
+        spritesArray[spriteIndex].updateLocation();
+    }
+    bodyDiv.style.width = page.originOffsetX * 2 + "px";
+    bodyDiv.style.height = page.originOffsetY * 2 + "px";
 };
