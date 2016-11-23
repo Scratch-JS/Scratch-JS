@@ -168,10 +168,14 @@ function Sprite(x, y, value) {
         wait(1).then(function() {
             thisReference.goTo(x, y);
         });
-        //After animation finishes, reset the sprites transition property
-        setTimeout(function() {
-            thisReference.element.style.transition = "left 0ms, top 0ms";
-        }, length);
+        return new Promise(function(resolve) {
+            setTimeout(function() {
+                //After animation finishes, reset the sprites transition property
+                thisReference.element.style.transition = "left 0ms, top 0ms";
+                //resolve the promise
+                resolve();
+            }, length);
+        });
     };
 
     this.changeCostume = function(newCostume) {
