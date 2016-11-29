@@ -311,15 +311,13 @@ window.onload = function() {
     bodyDiv.style.height = page.originOffsetY * 2 + "px";
     bodyDiv.style.left = "0px";
     document.body.appendChild(bodyDiv);
-    if (needToAppendScript) {
-        var scriptToAppend = document.createElement("script");
-        scriptToAppend.src = "index.sjs";
-        document.body.appendChild(scriptToAppend);
-    }
+
     //add styles
     var style = document.createElement("style");
     style.innerHTML = "* { position: absolute; } body { margin: 0; opacity: 0; overflow: hidden; } #cursorImage { pointer-events: none }";
     document.getElementsByTagName('head')[0].appendChild(style);
+
+    transpileCode();
 
     whenCodeLoads = function() {
         document.body.style.opacity = "1";
@@ -339,56 +337,84 @@ window.onresize = function() {
     bodyDiv.style.height = page.originOffsetY * 2 + "px";
 };
 
+
 /*Transpiler*/
-var needToAppendScript;
-/*Transpiler Code*/
-if (location.protocol === "file:") {
-    //If page is served through local file system, fail gracefully
-    console.warn("Scratch-JS is not running on localhost or http, anonymous callbacks now need to be explicitly declared");
-    needToAppendScript = true;
-} else {
-    //Otherwise, do everything normally
-    var code = "";
-    var request = new XMLHttpRequest();
-    request.open("GET", "index.sjs");
-    request.send();
-    //when ready state changes and the new state, shows success, get the code and store it in the code variable
-    request.onreadystatechange = function() {
-        if (request.readyState === 4 && request.status == 200) {
-            code = request.responseText;
-            transpileCode();
+function whenCodeLoads() {}
+
+function transpileCode() {
+    if (location.protocol === "file:") {
+        //If page is served through local file system, fail gracefully
+        console.error("Scratch-JS accessed through file:// Please run an localhost server and access it through http:// (default: localhost:8000)");
+    } else {
+        //Otherwise, do everything normally
+        var request = new XMLHttpRequest();
+        request.open("GET", "index.sjs");
+        request.send();
+        //when ready state changes and the new state, shows success, get the code and store it in the code variable
+        request.onreadystatechange = function () {
+            if (request.readyState === 4 && request.status == 200) {
+                var code = request.responseText;
+                //transpile SJS anonymous functions and SJS callbacks
+                code = transpileAnonymousFunctions(transpileCallbacks(code, 0));
+                eval(code);
+                whenCodeLoads();
+            }
+        };
+    }
+}
+
+/**
+ * Recursively transpiles all the funcName({}) to funcName(function(){})
+ * @param code {string}
+ * @param currentIndex {Number}
+ */
+function transpileCallbacks(code, currentIndex) {
+    if (code.includes("({")) {
+        var indexOfCallback = code.indexOf("({", currentIndex) + 1;
+        //preform the replacement using insert (defined in polyfills)
+        code = code.insert(indexOfCallback, "function()");
+        return transpileCallbacks(code, indexOfCallback + 1);
+    }else{
+        return code;
+    }
+}
+
+/**
+ * Transpiles all the funcName{} to funcName = function(){} using REGEX
+ * @param code {string}
+ * @returns {string}
+ */
+function transpileAnonymousFunctions(code) {
+    //REGEX checks if { exists after the end boundary of a word (with optional whitespace in between)
+    return code.replace(/\b\s*\{/g, "=function(){");
+}
+
+
+/*Polyfills*/
+
+//String.prototype.includes pollyfill
+if (!String.prototype.includes) {
+    String.prototype.includes = function(search, start) {
+        'use strict';
+        if (typeof start !== 'number') {
+            start = 0;
+        }
+
+        if (start + search.length > this.length) {
+            return false;
+        } else {
+            return this.indexOf(search, start) !== -1;
         }
     };
 }
 
-function whenCodeLoads() {}
-
-function transpileCode() {
-    //Transpile starting from index 0
-    transpileCallbackFromIndex(0);
-    transpileAnonFromIndex(0);
-    evalCode();
-}
-//recursive function to go through each callback and transpile them to JS
-function transpileCallbackFromIndex(currentIndex) {
-    var indexOfCallback = code.indexOf("({", currentIndex) + 1;
-    if (indexOfCallback != 0) {
-        code = code.substring(0, indexOfCallback) + "function()" + code.substring(indexOfCallback, code.length);
-        transpileCallbackFromIndex(indexOfCallback + 1);
-    }
-}
-
-function transpileAnonFromIndex(startingIndex) {
-    var index = code.indexOf("{", startingIndex);
-    if (index !== -1) {
-        if (code.charAt(index - 1) !== ")" && code.charAt(index - 2) !== ")") {
-            code = code.substring(0, index) + " = function()" + code.substring(index, code.length);
-        }
-        transpileAnonFromIndex(index + 1);
-    }
-}
-
-function evalCode() {
-    eval(code);
-    whenCodeLoads();
-}
+/**
+ * Inserts a substring into a string at an index. Insert isn't in the JS spec, so this isn't exactly a pollyfill
+ * @param index
+ * @param stringToAdd
+ * @returns {string}
+ * @author David Nagli <davidnagli@gmail.com>
+ */
+String.prototype.insert = function(index, stringToAdd) {
+    return this.slice(0, index) + stringToAdd + this.slice(index);
+};
