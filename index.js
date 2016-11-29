@@ -112,8 +112,16 @@ function Sprite(x, y, value) {
         this.updateRotation();
     };
 
-    this.pointInDirection = function(direction) {
-        this.direction = direction;
+    this.pointInDirection = function() {
+        if (arguments[0] instanceof Sprite) { //if the argument is a sprite
+            //calculate the angle between this sprite and the sprite in the argument
+            var sprite = arguments[0];
+            var deltaX = sprite.x - this.x;
+            var deltaY = sprite.y - this.y;
+            this.direction = Math.atan2(deltaY, deltaX) * (180 / Math.PI);
+        } else {
+            this.direction = arguments[0];
+        }
         this.updateRotation();
     };
 
