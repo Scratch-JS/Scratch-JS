@@ -30,7 +30,7 @@ function Sprite(x, y, value, scaleFactor) {
 
     this.updateRotation = function () {
         //by default turns clockwise, added "-" to make it turn counterclockwise like in geometry
-        this.element.style.transform = "rotate(" + (this.direction * -1) + "deg)";
+        this.element.style.transform = "rotate(" + (this.direction * 1) + "deg)";
     };
 
     /**
