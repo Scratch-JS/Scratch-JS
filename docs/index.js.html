@@ -1,4 +1,44 @@
-//define and initialize global sprites array that every sprite pushes itself to
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>index.js - Documentation</title>
+
+    <script src="scripts/prettify/prettify.js"></script>
+    <script src="scripts/prettify/lang-css.js"></script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+<body>
+
+<input type="checkbox" id="nav-trigger" class="nav-trigger" />
+<label for="nav-trigger" class="navicon-button x">
+  <div class="navicon"></div>
+</label>
+
+<label for="nav-trigger" class="overlay"></label>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="Sprite.html">Sprite</a><ul class='methods'><li data-type='method'><a href="Sprite.html#changeCostume">changeCostume</a></li><li data-type='method'><a href="Sprite.html#changeXBy">changeXBy</a></li><li data-type='method'><a href="Sprite.html#changeYBy">changeYBy</a></li><li data-type='method'><a href="Sprite.html#distanceTo">distanceTo</a></li><li data-type='method'><a href="Sprite.html#glideTo">glideTo</a></li><li data-type='method'><a href="Sprite.html#goTo">goTo</a></li><li data-type='method'><a href="Sprite.html#hide">hide</a></li><li data-type='method'><a href="Sprite.html#move">move</a></li><li data-type='method'><a href="Sprite.html#pointInDirection">pointInDirection</a></li><li data-type='method'><a href="Sprite.html#resize">resize</a></li><li data-type='method'><a href="Sprite.html#setXTo">setXTo</a></li><li data-type='method'><a href="Sprite.html#setYTo">setYTo</a></li><li data-type='method'><a href="Sprite.html#show">show</a></li><li data-type='method'><a href="Sprite.html#turn">turn</a></li></ul></li></ul><h3>Namespaces</h3><ul><li><a href="mouse.html">mouse</a><ul class='methods'><li data-type='method'><a href="mouse.html#.setCostume">setCostume</a></li></ul></li></ul><h3>Global</h3><ul><li><a href="global.html#ask">ask</a></li><li><a href="global.html#forever">forever</a></li><li><a href="global.html#repeat">repeat</a></li><li><a href="global.html#say">say</a></li><li><a href="global.html#stop">stop</a></li><li><a href="global.html#wait">wait</a></li></ul>
+</nav>
+
+<div id="main">
+    
+    <h1 class="page-title">index.js</h1>
+    
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>//define and initialize global sprites array that every sprite pushes itself to
 var spritesArray = [];
 
 /**
@@ -212,12 +252,12 @@ function Sprite(x, y, value, scaleFactor) {
      */
     this.changeCostume = function (newCostume) {
         var containingDiv;
-        var valueIsHtmlTag = (/<(br|basefont|hr|input|source|frame|param|area|meta|!--|col|link|option|base|img|wbr|!DOCTYPE).*?>|<(a|abbr|acronym|address|applet|article|aside|audio|b|bdi|bdo|big|blockquote|body|button|canvas|caption|center|cite|code|colgroup|command|datalist|dd|del|details|dfn|dialog|dir|div|dl|dt|em|embed|fieldset|figcaption|figure|font|footer|form|frameset|head|header|hgroup|h1|h2|h3|h4|h5|h6|html|i|iframe|ins|kbd|keygen|label|legend|li|map|mark|menu|meter|nav|noframes|noscript|object|ol|optgroup|output|p|pre|progress|q|rp|rt|ruby|s|samp|script|section|select|small|span|strike|strong|style|sub|summary|sup|table|tbody|td|textarea|tfoot|th|thead|time|title|tr|track|tt|u|ul|var|video).*?<\/\2>/i.test(newCostume));
-        if (!valueIsHtmlTag && this.isImage) {
+        var valueIsHtmlTag = (/&lt;(br|basefont|hr|input|source|frame|param|area|meta|!--|col|link|option|base|img|wbr|!DOCTYPE).*?>|&lt;(a|abbr|acronym|address|applet|article|aside|audio|b|bdi|bdo|big|blockquote|body|button|canvas|caption|center|cite|code|colgroup|command|datalist|dd|del|details|dfn|dialog|dir|div|dl|dt|em|embed|fieldset|figcaption|figure|font|footer|form|frameset|head|header|hgroup|h1|h2|h3|h4|h5|h6|html|i|iframe|ins|kbd|keygen|label|legend|li|map|mark|menu|meter|nav|noframes|noscript|object|ol|optgroup|output|p|pre|progress|q|rp|rt|ruby|s|samp|script|section|select|small|span|strike|strong|style|sub|summary|sup|table|tbody|td|textarea|tfoot|th|thead|time|title|tr|track|tt|u|ul|var|video).*?&lt;\/\2>/i.test(newCostume));
+        if (!valueIsHtmlTag &amp;&amp; this.isImage) {
             //Old sprite is image, new sprite is also image
             this.element.src = newCostume;
             this.isImage = true;
-        } else if (valueIsHtmlTag && this.isImage) {
+        } else if (valueIsHtmlTag &amp;&amp; this.isImage) {
             //Old sprite is image, new sprite is not
             document.body.removeChild(this.element);
             containingDiv = document.createElement("div");
@@ -226,14 +266,14 @@ function Sprite(x, y, value, scaleFactor) {
             this.updateLocation();
             document.body.appendChild(containingDiv);
             this.isImage = false;
-        } else if (valueIsHtmlTag && !this.isImage) {
+        } else if (valueIsHtmlTag &amp;&amp; !this.isImage) {
             //Old sprite is not an image, new one is also not image
             containingDiv = this.element.parentNode;
             containingDiv.innerHTML = newCostume;
             this.element = containingDiv.firstChild;
             this.updateLocation();
             this.isImage = false;
-        } else if (!valueIsHtmlTag && !this.isImage) {
+        } else if (!valueIsHtmlTag &amp;&amp; !this.isImage) {
             //Old sprite is not an image, new one is an image
             document.body.removeChild(this.element.parentNode);
             this.element = document.createElement("img");
@@ -253,7 +293,7 @@ function Sprite(x, y, value, scaleFactor) {
     //Sometimes this get changed inside other scopes, so using another variable as reference
     var thisReference = this;
 
-    var valueIsHtmlTag = (/<(br|basefont|hr|input|source|frame|param|area|meta|!--|col|link|option|base|img|wbr|!DOCTYPE).*?>|<(a|abbr|acronym|address|applet|article|aside|audio|b|bdi|bdo|big|blockquote|body|button|canvas|caption|center|cite|code|colgroup|command|datalist|dd|del|details|dfn|dialog|dir|div|dl|dt|em|embed|fieldset|figcaption|figure|font|footer|form|frameset|head|header|hgroup|h1|h2|h3|h4|h5|h6|html|i|iframe|ins|kbd|keygen|label|legend|li|map|mark|menu|meter|nav|noframes|noscript|object|ol|optgroup|output|p|pre|progress|q|rp|rt|ruby|s|samp|script|section|select|small|span|strike|strong|style|sub|summary|sup|table|tbody|td|textarea|tfoot|th|thead|time|title|tr|track|tt|u|ul|var|video).*?<\/\2>/i.test(value));
+    var valueIsHtmlTag = (/&lt;(br|basefont|hr|input|source|frame|param|area|meta|!--|col|link|option|base|img|wbr|!DOCTYPE).*?>|&lt;(a|abbr|acronym|address|applet|article|aside|audio|b|bdi|bdo|big|blockquote|body|button|canvas|caption|center|cite|code|colgroup|command|datalist|dd|del|details|dfn|dialog|dir|div|dl|dt|em|embed|fieldset|figcaption|figure|font|footer|form|frameset|head|header|hgroup|h1|h2|h3|h4|h5|h6|html|i|iframe|ins|kbd|keygen|label|legend|li|map|mark|menu|meter|nav|noframes|noscript|object|ol|optgroup|output|p|pre|progress|q|rp|rt|ruby|s|samp|script|section|select|small|span|strike|strong|style|sub|summary|sup|table|tbody|td|textarea|tfoot|th|thead|time|title|tr|track|tt|u|ul|var|video).*?&lt;\/\2>/i.test(value));
     if (valueIsHtmlTag) {
         //if value is an html tag name
         var containingDiv = document.createElement("div");
@@ -292,7 +332,7 @@ function Sprite(x, y, value, scaleFactor) {
  * @param {Function} callback The block of code
  */
 function repeat(times, callback) {
-    for (var i = 0; i < times; i++) {
+    for (var i = 0; i &lt; times; i++) {
         callback();
     }
 }
@@ -368,7 +408,7 @@ mouse.setCostume = function (costumeName) {
         //if new costume is custom, make the real cursor hidden everywhere
         document.body.style.cursor = "none";
         //make it hidden when on top of other elements
-        for (var i = 0; i < document.body.getElementsByTagName("*").length; i++) {
+        for (var i = 0; i &lt; document.body.getElementsByTagName("*").length; i++) {
             document.body.getElementsByTagName("*")[i].style.cursor = "none";
         }
         //When we get the mouse coordinates, create our fake mouse
@@ -463,7 +503,7 @@ function transpileCode() {
         request.send();
         //when ready state changes and the new state, shows success, get the code and store it in the code variable
         request.onreadystatechange = function () {
-            if (request.readyState === 4 && request.status == 200) {
+            if (request.readyState === 4 &amp;&amp; request.status == 200) {
                 var code = request.responseText;
                 //transpile SJS anonymous functions and SJS callbacks
                 code = transpileAnonymousFunctions(transpileCallbacks(code, 0));
@@ -512,3 +552,22 @@ if (!String.prototype.includes) {
 String.prototype.insert = function (index, stringToAdd) {
     return this.slice(0, index) + stringToAdd + this.slice(index);
 };
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.3</a> on Wed Nov 30 2016 15:26:26 GMT-0500 (EST) using the Minami theme.
+</footer>
+
+<script>prettyPrint();</script>
+<script src="scripts/linenumber.js"></script>
+</body>
+</html>
