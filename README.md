@@ -15,7 +15,7 @@ Scratch-JS is an Open Source project. As such, it relies on contributions from d
 #Examples
 With Comments
 ```javascript
-//when the page loads (similer to "When Green Flag is Pressed"
+//when the page loads (similar to "When Green Flag is Pressed"
 whenPageLoads{
     //create a new sprite at position (0,0)
     mySprite = new Sprite(0, 0, "sprite.jpg");
@@ -23,7 +23,7 @@ whenPageLoads{
     //turn the sprite counter-clockwise 45 degrees
     mySprite.turn(45)
     
-    //move 50 pixals in the direction it's facing
+    //move 50 pixels in the direction it's facing
     mySprite.move(50)
     
     //wait 1000ms (1 second)

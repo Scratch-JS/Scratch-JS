@@ -5,32 +5,32 @@ function Sprite(x, y, value) {
     /*Sprite methods*/
 
     //updates both x and y
-    this.updateLocation = function() {
+    this.updateLocation = function () {
         this.element.style.left = (page.originOffsetX + this.x - (this.element.clientWidth / 2)) + "px";
         this.element.style.top = (page.originOffsetY - this.y - (this.element.clientHeight / 2)) + "px";
     };
 
     //updates only x
-    this.updateX = function() {
+    this.updateX = function () {
         this.element.style.left = (page.originOffsetX + this.x - (this.element.clientWidth / 2)) + "px";
     };
 
     //updates only y
-    this.updateY = function() {
+    this.updateY = function () {
         this.element.style.top = (page.originOffsetY - this.y - (this.element.clientHeight / 2)) + "px";
     };
 
-    this.updateRotation = function() {
+    this.updateRotation = function () {
         //by default turns clockwise, added "-" to make it turn counterclockwise like in geometry
         this.element.style.transform = "rotate(" + (this.direction * -1) + "deg)";
     };
 
-    this.resize = function(scaleFactor) {
+    this.resize = function (scaleFactor) {
         var originalWidth = this.element.clientWidth;
         this.element.width = originalWidth * scaleFactor;
     };
 
-    this.goTo = function() {
+    this.goTo = function () {
         if (arguments[1] != undefined) {
             //two arguments provided, the arguments are expected to be x and y respectively. go to this x and y position
             this.x = arguments[0];
@@ -46,35 +46,35 @@ function Sprite(x, y, value) {
     };
 
     //sets the x of the sprite
-    this.setXTo = function(newX) {
+    this.setXTo = function (newX) {
         this.x = newX;
         this.updateX();
     };
 
     //sets the y of the sprite
-    this.setYTo = function(newY) {
+    this.setYTo = function (newY) {
         this.y = newY;
         this.updateY();
     };
 
     //changes the x of the sprite by an amount
-    this.changeXBy = function(deltaX) {
+    this.changeXBy = function (deltaX) {
         this.x += deltaX;
         this.updateX();
     };
 
     //changes the x of the sprite by an amount
-    this.changeYBy = function(deltaY) {
+    this.changeYBy = function (deltaY) {
         this.y += deltaY;
         this.updateY();
     };
 
-    this.turn = function(degrees) {
+    this.turn = function (degrees) {
         this.direction += degrees;
         this.updateRotation();
     };
 
-    this.pointInDirection = function() {
+    this.pointInDirection = function () {
         if (arguments[0] instanceof Sprite) { //if the argument is a sprite
             //calculate the angle between this sprite and the sprite in the argument
             var sprite = arguments[0];
@@ -87,7 +87,7 @@ function Sprite(x, y, value) {
         this.updateRotation();
     };
 
-    this.move = function(amount) {
+    this.move = function (amount) {
         var deltaX = Math.cos(this.direction * Math.PI / 180) * amount;
         var deltaY = Math.sin(this.direction * Math.PI / 180) * amount;
         this.x += deltaX;
@@ -95,12 +95,12 @@ function Sprite(x, y, value) {
         this.updateLocation();
     };
 
-    var calculateDistance = function(x1, y1, x2, y2) {
+    var calculateDistance = function (x1, y1, x2, y2) {
         //simple pythagorean theorem to find distance between points
         return Math.sqrt(((x1 - x2) * (x1 - x2)) + ((y1 - y2) * (y1 - y2)));
     };
 
-    this.distanceTo = function() {
+    this.distanceTo = function () {
         if (arguments[1] != undefined) {
             //if two arguments are provided the two arguments must be x, y coordinates
             return calculateDistance(this.x, this.y, arguments[0], arguments[1]);
@@ -110,17 +110,17 @@ function Sprite(x, y, value) {
         }
     };
 
-    this.show = function() {
+    this.show = function () {
         this.element.style.display = "initial";
         this.isHidden = false;
     };
 
-    this.hide = function() {
+    this.hide = function () {
         this.element.style.display = "none";
         this.isHidden = true;
     };
 
-    this.glideTo = function() {
+    this.glideTo = function () {
         var length;
         var y;
         var x;
@@ -135,11 +135,11 @@ function Sprite(x, y, value) {
             length = arguments[1];
         }
         this.element.style.transition = "left " + length + "ms linear, top " + length + "ms linear";
-        wait(1).then(function() {
+        wait(1).then(function () {
             thisReference.goTo(x, y);
         });
-        return new Promise(function(resolve) {
-            setTimeout(function() {
+        return new Promise(function (resolve) {
+            setTimeout(function () {
                 //After animation finishes, reset the sprites transition property
                 thisReference.element.style.transition = "left 0ms, top 0ms";
                 //resolve the promise
@@ -148,7 +148,7 @@ function Sprite(x, y, value) {
         });
     };
 
-    this.changeCostume = function(newCostume) {
+    this.changeCostume = function (newCostume) {
         var containingDiv;
         var valueIsHtmlTag = (/<(br|basefont|hr|input|source|frame|param|area|meta|!--|col|link|option|base|img|wbr|!DOCTYPE).*?>|<(a|abbr|acronym|address|applet|article|aside|audio|b|bdi|bdo|big|blockquote|body|button|canvas|caption|center|cite|code|colgroup|command|datalist|dd|del|details|dfn|dialog|dir|div|dl|dt|em|embed|fieldset|figcaption|figure|font|footer|form|frameset|head|header|hgroup|h1|h2|h3|h4|h5|h6|html|i|iframe|ins|kbd|keygen|label|legend|li|map|mark|menu|meter|nav|noframes|noscript|object|ol|optgroup|output|p|pre|progress|q|rp|rt|ruby|s|samp|script|section|select|small|span|strike|strong|style|sub|summary|sup|table|tbody|td|textarea|tfoot|th|thead|time|title|tr|track|tt|u|ul|var|video).*?<\/\2>/i.test(newCostume));
         if (!valueIsHtmlTag && this.isImage) {
@@ -210,7 +210,7 @@ function Sprite(x, y, value) {
         var that = this;
         var scaleFactor = arguments[3];
 
-        this.element.onload = function() {
+        this.element.onload = function () {
             //if size argument found, set it
             if (scaleFactor) {
                 thisReference.resize(scaleFactor);
@@ -232,8 +232,8 @@ function repeat(times, callback) {
 }
 
 function wait(length) {
-    return new Promise(function(resolve) {
-        setTimeout(function() {
+    return new Promise(function (resolve) {
+        setTimeout(function () {
             resolve();
         }, length)
     });
@@ -241,7 +241,7 @@ function wait(length) {
 
 //use of forever is slow and not recommended, use while loop instead
 function forever(callback) {
-    return setInterval(function() {
+    return setInterval(function () {
         callback();
     }, 1);
 }
@@ -264,7 +264,7 @@ var mouse = {
     ready: false
 };
 
-mouse.setCostume = function(costumeName) {
+mouse.setCostume = function (costumeName) {
     var mouseSprite;
     var args = arguments;
     var isCustom = !(/alias|all-scroll|auto|cell|context-menu|col-resize|copy|crosshair|default|e-resize|ew-resize|grab|grabbing|help|move|n-resize|ne-resize|nesw-resize|ns-resize|nw-resize|nwse-resize|no-drop|none|not-allowed|pointer|progress|row-resize|s-resize|se-resize|sw-resize|text|vertical-text|w-resize|wait|zoom-in|zoom-out|initial/).test(costumeName);
@@ -276,7 +276,7 @@ mouse.setCostume = function(costumeName) {
             document.body.getElementsByTagName("*")[i].style.cursor = "none";
         }
         //When we get the mouse coordinates, create our fake mouse
-        var checkMouseReady = forever(function() {
+        var checkMouseReady = forever(function () {
             if (mouse.ready) {
                 //stop checking for the mouse.ready
                 stop(checkMouseReady);
@@ -293,7 +293,7 @@ mouse.setCostume = function(costumeName) {
                 //make sure that dragging the mouse doesn't drag the mouse sprite
                 mouseSprite.element.draggable = "none";
                 //Forever go to the mouse
-                forever(function() {
+                forever(function () {
                     mouseSprite.goTo(mouse);
                 })
             }
@@ -304,7 +304,7 @@ mouse.setCostume = function(costumeName) {
     }
 };
 
-document.onmousemove = function() {
+document.onmousemove = function () {
     mouse.x = event.x - page.originOffsetX;
     mouse.y = page.originOffsetY - event.y;
     mouse.ready = true;
@@ -312,10 +312,11 @@ document.onmousemove = function() {
 
 
 /*Stage and DOM Initialization*/
-var whenPageLoads = function() {};
+var whenPageLoads = function () {
+};
 var page = {};
 var bodyDiv;
-window.onload = function() {
+window.onload = function () {
     page.originOffsetX = window.innerWidth / 2;
     page.originOffsetY = window.innerHeight / 2;
     page.maxX = page.originOffsetX;
@@ -333,13 +334,13 @@ window.onload = function() {
 
     transpileCode();
 
-    whenCodeLoads = function() {
+    whenCodeLoads = function () {
         document.body.style.opacity = "1";
         whenPageLoads();
     }
 };
 
-window.onresize = function() {
+window.onresize = function () {
     page.originOffsetX = window.innerWidth / 2;
     page.originOffsetY = window.innerHeight / 2;
     page.maxX = page.originOffsetX;
@@ -353,7 +354,8 @@ window.onresize = function() {
 
 
 /*Transpiler*/
-function whenCodeLoads() {}
+function whenCodeLoads() {
+}
 
 function transpileCode() {
     if (location.protocol === "file:") {
@@ -388,7 +390,7 @@ function transpileCallbacks(code, currentIndex) {
         //preform the replacement using insert (defined in polyfills)
         code = code.insert(indexOfCallback, "function()");
         return transpileCallbacks(code, indexOfCallback + 1);
-    }else{
+    } else {
         return code;
     }
 }
@@ -408,7 +410,7 @@ function transpileAnonymousFunctions(code) {
 
 //String.prototype.includes pollyfill
 if (!String.prototype.includes) {
-    String.prototype.includes = function(search, start) {
+    String.prototype.includes = function (search, start) {
         'use strict';
         if (typeof start !== 'number') {
             start = 0;
@@ -429,6 +431,6 @@ if (!String.prototype.includes) {
  * @returns {string}
  * @author David Nagli <davidnagli@gmail.com>
  */
-String.prototype.insert = function(index, stringToAdd) {
+String.prototype.insert = function (index, stringToAdd) {
     return this.slice(0, index) + stringToAdd + this.slice(index);
 };
