@@ -1,18 +1,22 @@
 ## About Scratch-JS
+How can you not love Scratch's amazingly easy to use drag and drop interface? Scratch is an amazing platform and tool for beginers to learn the fundementals of computer science and programming. The problem is that eventually people neeed to advance from Scratch, to a written programming language. The benifits of programing languages is that they can be used in more places (as upposed to just Scratch), and can execute much faster. The problem is that the gap between programming languages and Scratch is way to big. Beginners often face a strugle with all the syntax complexeties found in programming language.
 
-There are many people who start programing using Scratch but then get stuck because of the large leap from Scratch's easy to use Drag and Drop interface, to the typing and learning required in JavaScript. For example, many beginners will fall in love with Scratch. With Scratch they truly learn the fundamentals of Computer Science and Programming. The problem is that they eventually advance to the point were Scratch becomes to slow, and feature lacking for many things.
+Scratch-JS is designed to be the next step from Scratch, and is an adaptation of the JavaScript coding language. The best part is, Scratch-JS uses JIT Transpilation to allow your code to run in any browser, in your own webpage. Scratch-JS lets you choose wheather you write Scratch-JS code in regular JavaScript or if you would like to use the simpilfied syntax provided. 
 
-That's where Scratch-JS comes in. Scratch-JS is a JavaScript library that focuses on easing the transition for beginner programmers from Scratch to JavaScript. With its easy to use, familiar and english like syntax from scratch; and the power, speed, accessibility and portability of JavaScript the best of both worlds can come together in one place. The best part is, the syntax, methods and properties of scratch will seem very familiar and easy to learn to anybody who has used scratch in the past.
+#Here's what Scratch-JS looks like:
 
-## Reporting Bugs
+Without comments:
+```javascript
+whenPageLoads{
+    mySprite = new Sprite(0, 0, "sprite.jpg");
+    mySprite.turn(45)
+    mySprite.move(50)
+    wait(1000).then({
+       mySprite.goTo(100,0); 
+    })
+}
+```
 
-  If you have any questions or would like to report a bug, please go to issue tab and create a new issue.
-
-## Contributing
-
-Scratch-JS is an Open Source project. As such, it relies on contributions from developers. If you are looking to contribute you can do so by forking this repository and sending a pull request.
-
-#Examples
 With Comments
 ```javascript
 //when the page loads (similar to "When Green Flag is Pressed"
@@ -20,7 +24,7 @@ whenPageLoads{
     //create a new sprite at position (0,0)
     mySprite = new Sprite(0, 0, "sprite.jpg");
     
-    //turn the sprite counter-clockwise 45 degrees
+    //turn the sprite clockwise 45 degrees
     mySprite.turn(45)
     
     //move 50 pixels in the direction it's facing
@@ -33,14 +37,19 @@ whenPageLoads{
     })
 }
 ```
-Without comments:
+
+#You can even make sprites out of HTML tags!
 ```javascript
 whenPageLoads{
-    mySprite = new Sprite(0, 0, "sprite.jpg");
-    mySprite.turn(45)
-    mySprite.move(50)
-    wait(1000).then({
-       mySprite.goTo(100,0); 
-    })
+    mySprite = new Sprite(0, 0, "<button>click me</button>");
 }
 ```
+HTML tag sprites mean that you can use Scratch-JS to make full webpages and games that use real HTML components.
+
+## Reporting Bugs
+
+  If you have any questions or would like to report a bug, please go to issue tab and create a new issue.
+
+## Contributing
+
+Scratch-JS is an Open Source project. As such, it relies on contributions from developers. If you are looking to contribute you can do so by forking this repository and sending a pull request.
