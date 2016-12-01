@@ -10,6 +10,7 @@ var spritesArray = [];
  * @constructor
  */
 function Sprite(x, y, value, scaleFactor) {
+    var pen = false;
     /*Sprite methods*/
 
     //updates both x and y
@@ -133,6 +134,14 @@ function Sprite(x, y, value, scaleFactor) {
         this.y += deltaY;
         this.updateLocation();
     };
+    
+   this.down = function() {
+       pen = true;
+   }
+   
+   this.up = function() {
+       pen = false;
+   }
 
     var calculateDistance = function (x1, y1, x2, y2) {
         //simple pythagorean theorem to find distance between points
