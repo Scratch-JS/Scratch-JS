@@ -1,7 +1,7 @@
 ## About Scratch-JS
 How can you not love Scratch's amazingly easy to use drag and drop interface? Scratch is an amazing platform and tool for beginers to learn the fundementals of computer science and programming. The problem is that eventually people neeed to advance from Scratch, to a written programming language. The benifits of programing languages is that they can be used in more places (as upposed to just Scratch), and can execute much faster. The problem is that the gap between programming languages and Scratch is way to big. Beginners often face a strugle with all the syntax complexeties found in programming language.
 
-Scratch-JS is designed to be the next step from Scratch, and is an adaptation of the JavaScript coding language. The best part is, Scratch-JS uses JIT Transpilation to allow your code to run in any browser, in your own webpage. Scratch-JS lets you choose wheather you write Scratch-JS code in regular JavaScript or if you would like to use the simpilfied syntax provided. 
+Scratch-JS is designed to be the next step from Scratch, and is an adaptation of the JavaScript coding language. The best part is, Scratch-JS uses JIT Transpilation to allow your code to run in any browser, in your own webpage. Scratch-JS lets you choose whether you write Scratch-JS code in regular JavaScript or if you would like to use the simpilfied syntax provided. 
 
 #Here's what Scratch-JS looks like:
 
