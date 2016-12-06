@@ -464,7 +464,7 @@ function whenCodeLoads() {
 function transpileCode() {
     if (location.protocol === "file:") {
         //If page is served through local file system, fail gracefully
-        console.error("Scratch-JS accessed through file:// Please run an localhost server and access it through http:// (default: localhost:8000)");
+        console.error("Scratch-JS accessed through file:// Please run a server and access it through http://"+process.env.IP);
     } else {
         //Otherwise, do everything normally
         var request = new XMLHttpRequest();
