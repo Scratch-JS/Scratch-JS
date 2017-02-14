@@ -10,7 +10,6 @@ var spritesArray = [];
  * @constructor
  */
 function Sprite(x, y, value, scaleFactor) {
-    var pen = false;
     /*Sprite methods*/
 
     //updates both x and y
@@ -31,7 +30,7 @@ function Sprite(x, y, value, scaleFactor) {
 
     this.updateRotation = function () {
         //by default turns clockwise, added "-" to make it turn counterclockwise like in geometry
-        this.element.style.transform = "rotate(" + (this.direction * 1) + "deg)";
+        this.element.style.transform = "rotate(" + (this.direction * -1) + "deg)";
     };
 
     /**
@@ -44,7 +43,7 @@ function Sprite(x, y, value, scaleFactor) {
     };
 
     /**
-     * !!!!ADD PARAMETERS MANUALLY!!!! Go to another sprite or an x,y coordinate. Takes either 1 parameter (a sprite) or 2 parameters (the x,y coordinates)
+     * Multiple parameters usages: Go to another sprite or an x,y coordinate. Takes either 1 parameter (a sprite) or 2 parameters (the x,y coordinates)
      */
     this.goTo = function () {
         if (arguments[1] != undefined) {
@@ -99,7 +98,7 @@ function Sprite(x, y, value, scaleFactor) {
     };
 
     /**
-     * Turns the sprite counter clockwise
+     * Turns the sprite clockwise
      * @param {Number} degrees The amount of degrees to turn the sprite
      */
     this.turn = function (degrees) {
@@ -107,18 +106,20 @@ function Sprite(x, y, value, scaleFactor) {
         this.updateRotation();
     };
 
+    this.rotate = this.turn;
+
     /**
-     * !!!!ADD PARAMETERS MANUALLY!!!! Points the sprite towards another sprite or a certain angle (right 0, up 90). Parameter: direction: angle, can be negative, or sprite: sprite to point towards
+     * Multiple parameters usages: Points the sprite towards another sprite or a certain angle (right 0, up 90). Parameter: direction: angle (clockwise, can be negative), or sprite: sprite to point towards
      */
     this.pointInDirection = function () {
-        if (arguments[0] instanceof Sprite) { //if the argument is a sprite
+        if (typeof arguments[0] === "number") { //if the argument is a degree
+            this.direction = arguments[0];
+        } else {
             //calculate the angle between this sprite and the sprite in the argument
             var sprite = arguments[0];
             var deltaX = sprite.x - this.x;
             var deltaY = sprite.y - this.y;
-            this.direction = Math.atan2(deltaY, deltaX) * (180 / Math.PI);
-        } else {
-            this.direction = arguments[0];
+            this.direction = Math.atan2(deltaY, deltaX) * (-180 / Math.PI);
         }
         this.updateRotation();
     };
@@ -134,14 +135,6 @@ function Sprite(x, y, value, scaleFactor) {
         this.y += deltaY;
         this.updateLocation();
     };
-    
-   this.down = function() {
-       pen = true;
-   }
-   
-   this.up = function() {
-       pen = false;
-   }
 
     var calculateDistance = function (x1, y1, x2, y2) {
         //simple pythagorean theorem to find distance between points
@@ -149,7 +142,7 @@ function Sprite(x, y, value, scaleFactor) {
     };
 
     /**
-     * !!!!ADD PARAMETERS MANUALLY!!!! Calculates the distance between this sprite and x,y coordinates or another sprite
+     * Multiple parameters usages: Calculates the distance between this sprite and x,y coordinates or another sprite
      * Parameters:
      * usage 1: x, y
      * usage 2: sprite - another sprite
@@ -181,7 +174,7 @@ function Sprite(x, y, value, scaleFactor) {
     };
 
     /**
-     * !!!!ADD PARAMETERS MANUALLY!!!! Glides to an x,y coordinate or another sprite for a certain amount of time
+     * Multiple parameters usages: Glides to an x,y coordinate or another sprite for a certain amount of time
      * Parameters:
      * usage 1: x, y, time
      * usage 2: sprite, time
@@ -266,18 +259,21 @@ function Sprite(x, y, value, scaleFactor) {
     if (valueIsHtmlTag) {
         //if value is an html tag name
         var containingDiv = document.createElement("div");
+        this.element.classList.add("sprite");
         containingDiv.innerHTML = value;
         this.element = containingDiv.firstChild;
         this.updateLocation();
         document.body.appendChild(containingDiv);
         this.isImage = false;
+        this.element.draggable = false;
     } else {
         //value is not html or error so custom sprite, use value as img src
         this.element = document.createElement("img");
         this.element.src = value;
+        this.element.classList.add("sprite");
         document.body.appendChild(this.element);
         this.element.style.visibility = "hidden";
-
+        this.element.draggable = false;
         var that = this;
 
         this.element.onload = function () {
@@ -289,8 +285,21 @@ function Sprite(x, y, value, scaleFactor) {
             that.updateLocation();
             that.isImage = true;
             that.element.style.visibility = "initial";
+
+            that.width = that.element.clientWidth;
+            that.height = that.element.clientHeight;
+
+            if(thisReference.whenLoads){
+                thisReference.whenLoads();
+            }
         }
     }
+
+    this.whenClicked = function () {};
+    this.element.addEventListener("mousedown", function () {
+        mouse.isDown = true;
+        thisReference.whenClicked()
+    });
 }
 
 /*Global Scratch-JS Functions*/
@@ -322,12 +331,13 @@ function wait(length) {
 /**
  * Executes a block (callback) forever until the stop function is called
  * @param {Function} callback The block of code to execute forever
+ * @param {Number} [delay] An optional delay in milliseconds (equivalent to forever + wait in Scratch)
  * @returns {number} An optional id that can be used by stop() to stop the forever
  */
-function forever(callback) {
+function forever(callback, delay) {
     return setInterval(function () {
         callback();
-    }, 1);
+    }, delay || 1);
 }
 
 /**
@@ -342,18 +352,20 @@ function stop(intervalToStop) {
  * Say something (uses JavaScript alert)
  * @param {String} text
  */
-function say(text) {
-    alert(text);
-}
+var say = alert;
+
+/**
+ * Print a message to the console (Uses JavaScript console.log)
+ * @param {*} Message
+ */
+var think = console.log;
+
 
 /**
  * Asks something (uses JavaScript prompt)
  * @param {String} text
  */
-function ask(text) {
-    return prompt(text);
-}
-
+var ask = prompt;
 
 /*Mouse Stuff*/
 
@@ -362,7 +374,8 @@ function ask(text) {
  * @property {Boolean} ready - Whether the mouse is ready
  */
 var mouse = {
-    ready: false
+    ready: false,
+    isDown: false
 };
 
 /**
@@ -374,12 +387,19 @@ mouse.setCostume = function (costumeName) {
     var args = arguments;
     var isCustom = !(/alias|all-scroll|auto|cell|context-menu|col-resize|copy|crosshair|default|e-resize|ew-resize|grab|grabbing|help|move|n-resize|ne-resize|nesw-resize|ns-resize|nw-resize|nwse-resize|no-drop|none|not-allowed|pointer|progress|row-resize|s-resize|se-resize|sw-resize|text|vertical-text|w-resize|wait|zoom-in|zoom-out|initial/).test(costumeName);
     if (isCustom) {
-        //if new costume is custom, make the real cursor hidden everywhere
-        document.body.style.cursor = "none";
+
         //make it hidden when on top of other elements
-        for (var i = 0; i < document.body.getElementsByTagName("*").length; i++) {
-            document.body.getElementsByTagName("*")[i].style.cursor = "none";
+        Array.from(document.body.getElementsByTagName("*")).forEach(function (element) {
+            element.style.cursor = "none";
+        });
+
+
+        //remove the current cursor if it exists
+        var cursor = document.getElementById("cursorImage");
+        if(cursor){
+            cursor.delete();
         }
+
         //When we get the mouse coordinates, create our fake mouse
         var checkMouseReady = forever(function () {
             if (mouse.ready) {
@@ -393,14 +413,18 @@ mouse.setCostume = function (costumeName) {
                     //create the fake mouse without a size argument
                     mouseSprite = new Sprite(0, 0, costumeName);
                 }
-                //javascript doesn't let me modify this directly so I use a css id to get around it
+                //add the id
                 mouseSprite.element.id = "cursorImage";
                 //make sure that dragging the mouse doesn't drag the mouse sprite
-                mouseSprite.element.draggable = "none";
-                //Forever go to the mouse
-                forever(function () {
-                    mouseSprite.goTo(mouse);
-                })
+                mouseSprite.element.draggable = false;
+                mouseSprite.whenLoads = function () {
+                    console.log('mouseSprite.height:', mouseSprite.height);
+                    //Forever go to the mouse
+                    forever(function () {
+                        //we have to shift the sprite's center such that it's top left corner is where our mouse is
+                        mouseSprite.goTo(mouse.x+(mouseSprite.width/4), mouse.y-(mouseSprite.height/2));
+                    })
+                };
             }
         });
     } else {
@@ -415,11 +439,20 @@ document.onmousemove = function () {
     mouse.ready = true;
 };
 
+document.onmousedown = function () {
+    mouse.isDown = true
+};
+
+document.onmouseup = function () {
+    mouse.isDown = false;
+};
+
 /*Stage and DOM Initialization*/
 var whenPageLoads = function () {
 };
 var page = {};
 var bodyDiv;
+var style;
 window.onload = function () {
     page.originOffsetX = window.innerWidth / 2;
     page.originOffsetY = window.innerHeight / 2;
@@ -429,11 +462,13 @@ window.onload = function () {
     bodyDiv.style.width = page.originOffsetX * 2 + "px";
     bodyDiv.style.height = page.originOffsetY * 2 + "px";
     bodyDiv.style.left = "0px";
-    document.body.appendChild(bodyDiv);
+    bodyDiv.id = "bodyDiv";
+    document.body.insertBefore(bodyDiv, document.body.childNodes[0]);
+    /*document.body.appendChild(bodyDiv);*/
 
     //add styles
-    var style = document.createElement("style");
-    style.innerHTML = "* { position: absolute; } body { margin: 0; opacity: 0; overflow: hidden; } #cursorImage { pointer-events: none }";
+    style = document.createElement("style");
+    style.innerHTML = ".sprite, #bodyDiv { position: absolute; z-index: -1;} body { margin: 0; opacity: 0; overflow: hidden; } #cursorImage, img.sprite { user-select: none; z-index:2; pointer-events:none;}";
     document.getElementsByTagName('head')[0].appendChild(style);
 
     transpileCode();
@@ -500,7 +535,7 @@ function transpileAnonymousFunctions(code) {
 }
 
 
-/*Polyfills*/
+/*Polyfills and Prototype Helper Functions*/
 
 //String.prototype.includes pollyfill
 if (!String.prototype.includes) {
@@ -520,4 +555,9 @@ if (!String.prototype.includes) {
 
 String.prototype.insert = function (index, stringToAdd) {
     return this.slice(0, index) + stringToAdd + this.slice(index);
+};
+
+
+Node.prototype.delete = function () {
+    this.parentNode.removeChild(this)
 };
