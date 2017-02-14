@@ -1,5 +1,5 @@
 //define and initialize global sprites array that every sprite pushes itself to
-var spritesArray = [];
+let spritesArray = [];
 
 /**
  * Creates a new Scratch-JS sprite and adds it to the stage
@@ -7,7 +7,7 @@ var spritesArray = [];
  * @param {Number} y starting y position of the sprite
  * @param {String} value sprite image file name or HTML tag
  * @param {Number} [scaleFactor] Optionally scale an image sprite by a scale factor (0-1)
- * @constructor
+ * @letructor
  */
 function Sprite(x, y, value, scaleFactor) {
     /*Sprite methods*/
@@ -38,7 +38,7 @@ function Sprite(x, y, value, scaleFactor) {
      * @param {Number} scaleFactor A scale factor from 0-1
      */
     this.resize = function (scaleFactor) {
-        var originalWidth = this.element.clientWidth;
+        let originalWidth = this.element.clientWidth;
         this.element.width = originalWidth * scaleFactor;
     };
 
@@ -53,7 +53,7 @@ function Sprite(x, y, value, scaleFactor) {
             this.updateLocation();
         } else if (arguments[0]) {
             //only one argument provided, expected to be sprite. go to that sprites position
-            var spriteToGoTo = arguments[0];
+            let spriteToGoTo = arguments[0];
             this.x = spriteToGoTo.x;
             this.y = spriteToGoTo.y;
             this.updateLocation();
@@ -116,9 +116,9 @@ function Sprite(x, y, value, scaleFactor) {
             this.direction = arguments[0];
         } else {
             //calculate the angle between this sprite and the sprite in the argument
-            var sprite = arguments[0];
-            var deltaX = sprite.x - this.x;
-            var deltaY = sprite.y - this.y;
+            let sprite = arguments[0];
+            let deltaX = sprite.x - this.x;
+            let deltaY = sprite.y - this.y;
             this.direction = Math.atan2(deltaY, deltaX) * (-180 / Math.PI);
         }
         this.updateRotation();
@@ -129,14 +129,14 @@ function Sprite(x, y, value, scaleFactor) {
      * @param amount Amount to move the sprite (in pixels)
      */
     this.move = function (amount) {
-        var deltaX = Math.cos(this.direction * Math.PI / 180) * amount;
-        var deltaY = Math.sin(this.direction * Math.PI / 180) * amount;
+        let deltaX = Math.cos(this.direction * Math.PI / 180) * amount;
+        let deltaY = Math.sin(this.direction * Math.PI / 180) * amount;
         this.x += deltaX;
         this.y += deltaY;
         this.updateLocation();
     };
 
-    var calculateDistance = function (x1, y1, x2, y2) {
+    let calculateDistance = function (x1, y1, x2, y2) {
         //simple pythagorean theorem to find distance between points
         return Math.sqrt(((x1 - x2) * (x1 - x2)) + ((y1 - y2) * (y1 - y2)));
     };
@@ -181,10 +181,10 @@ function Sprite(x, y, value, scaleFactor) {
      * @returns {Promise}
      */
     this.glideTo = function () {
-        var length;
-        var y;
-        var x;
-        var argumentsAreCoordinates = arguments[2] !== undefined;
+        let length;
+        let y;
+        let x;
+        let argumentsAreCoordinates = arguments[2] !== undefined;
         if (argumentsAreCoordinates) {
             x = arguments[0];
             y = arguments[1];
@@ -213,8 +213,8 @@ function Sprite(x, y, value, scaleFactor) {
      * @param {String} newCostume The new costume (can be an image, or HTML tag)
      */
     this.changeCostume = function (newCostume) {
-        var containingDiv;
-        var valueIsHtmlTag = (/<(br|basefont|hr|input|source|frame|param|area|meta|!--|col|link|option|base|img|wbr|!DOCTYPE).*?>|<(a|abbr|acronym|address|applet|article|aside|audio|b|bdi|bdo|big|blockquote|body|button|canvas|caption|center|cite|code|colgroup|command|datalist|dd|del|details|dfn|dialog|dir|div|dl|dt|em|embed|fieldset|figcaption|figure|font|footer|form|frameset|head|header|hgroup|h1|h2|h3|h4|h5|h6|html|i|iframe|ins|kbd|keygen|label|legend|li|map|mark|menu|meter|nav|noframes|noscript|object|ol|optgroup|output|p|pre|progress|q|rp|rt|ruby|s|samp|script|section|select|small|span|strike|strong|style|sub|summary|sup|table|tbody|td|textarea|tfoot|th|thead|time|title|tr|track|tt|u|ul|var|video).*?<\/\2>/i.test(newCostume));
+        let containingDiv;
+        let valueIsHtmlTag = (/<(br|basefont|hr|input|source|frame|param|area|meta|!--|col|link|option|base|img|wbr|!DOCTYPE).*?>|<(a|abbr|acronym|address|applet|article|aside|audio|b|bdi|bdo|big|blockquote|body|button|canvas|caption|center|cite|code|colgroup|command|datalist|dd|del|details|dfn|dialog|dir|div|dl|dt|em|embed|fieldset|figcaption|figure|font|footer|form|frameset|head|header|hgroup|h1|h2|h3|h4|h5|h6|html|i|iframe|ins|kbd|keygen|label|legend|li|map|mark|menu|meter|nav|noframes|noscript|object|ol|optgroup|output|p|pre|progress|q|rp|rt|ruby|s|samp|script|section|select|small|span|strike|strong|style|sub|summary|sup|table|tbody|td|textarea|tfoot|th|thead|time|title|tr|track|tt|u|ul|var|video).*?<\/\2>/i.test(newCostume));
         if (!valueIsHtmlTag && this.isImage) {
             //Old sprite is image, new sprite is also image
             this.element.src = newCostume;
@@ -253,12 +253,12 @@ function Sprite(x, y, value, scaleFactor) {
     this.isHidden = false;
     spritesArray.push(this);
     //Sometimes this get changed inside other scopes, so using another variable as reference
-    var thisReference = this;
+    let thisReference = this;
 
-    var valueIsHtmlTag = (/<(br|basefont|hr|input|source|frame|param|area|meta|!--|col|link|option|base|img|wbr|!DOCTYPE).*?>|<(a|abbr|acronym|address|applet|article|aside|audio|b|bdi|bdo|big|blockquote|body|button|canvas|caption|center|cite|code|colgroup|command|datalist|dd|del|details|dfn|dialog|dir|div|dl|dt|em|embed|fieldset|figcaption|figure|font|footer|form|frameset|head|header|hgroup|h1|h2|h3|h4|h5|h6|html|i|iframe|ins|kbd|keygen|label|legend|li|map|mark|menu|meter|nav|noframes|noscript|object|ol|optgroup|output|p|pre|progress|q|rp|rt|ruby|s|samp|script|section|select|small|span|strike|strong|style|sub|summary|sup|table|tbody|td|textarea|tfoot|th|thead|time|title|tr|track|tt|u|ul|var|video).*?<\/\2>/i.test(value));
+    let valueIsHtmlTag = (/<(br|basefont|hr|input|source|frame|param|area|meta|!--|col|link|option|base|img|wbr|!DOCTYPE).*?>|<(a|abbr|acronym|address|applet|article|aside|audio|b|bdi|bdo|big|blockquote|body|button|canvas|caption|center|cite|code|colgroup|command|datalist|dd|del|details|dfn|dialog|dir|div|dl|dt|em|embed|fieldset|figcaption|figure|font|footer|form|frameset|head|header|hgroup|h1|h2|h3|h4|h5|h6|html|i|iframe|ins|kbd|keygen|label|legend|li|map|mark|menu|meter|nav|noframes|noscript|object|ol|optgroup|output|p|pre|progress|q|rp|rt|ruby|s|samp|script|section|select|small|span|strike|strong|style|sub|summary|sup|table|tbody|td|textarea|tfoot|th|thead|time|title|tr|track|tt|u|ul|var|video).*?<\/\2>/i.test(value));
     if (valueIsHtmlTag) {
         //if value is an html tag name
-        var containingDiv = document.createElement("div");
+        let containingDiv = document.createElement("div");
         this.element.classList.add("sprite");
         containingDiv.innerHTML = value;
         this.element = containingDiv.firstChild;
@@ -274,7 +274,7 @@ function Sprite(x, y, value, scaleFactor) {
         document.body.appendChild(this.element);
         this.element.style.visibility = "hidden";
         this.element.draggable = false;
-        var that = this;
+        let that = this;
 
         this.element.onload = function () {
             //if size argument found, set it
@@ -312,7 +312,7 @@ function Sprite(x, y, value, scaleFactor) {
  * @param {Function} callback The block of code
  */
 function repeat(times, callback) {
-    for (var i = 0; i < times; i++) {
+    for (let i = 0; i < times; i++) {
         callback();
     }
 }
@@ -354,20 +354,20 @@ function stop(intervalToStop) {
  * Say something (uses JavaScript alert)
  * @param {String} text
  */
-var say = alert;
+let say = alert;
 
 /**
  * Print a message to the console (Uses JavaScript console.log)
  * @param {*} Message
  */
-var think = console.log;
+let think = console.log;
 
 
 /**
  * Asks something (uses JavaScript prompt)
  * @param {String} text
  */
-var ask = prompt;
+let ask = prompt;
 
 /*Mouse Stuff*/
 
@@ -375,7 +375,7 @@ var ask = prompt;
  * @namespace
  * @property {Boolean} ready - Whether the mouse is ready
  */
-var mouse = {
+let mouse = {
     ready: false,
     isDown: false
 };
@@ -385,9 +385,9 @@ var mouse = {
  * @param {String} costumeName Image or CSS mouse pointer name
  */
 mouse.setCostume = function (costumeName) {
-    var mouseSprite;
-    var args = arguments;
-    var isCustom = !(/alias|all-scroll|auto|cell|context-menu|col-resize|copy|crosshair|default|e-resize|ew-resize|grab|grabbing|help|move|n-resize|ne-resize|nesw-resize|ns-resize|nw-resize|nwse-resize|no-drop|none|not-allowed|pointer|progress|row-resize|s-resize|se-resize|sw-resize|text|vertical-text|w-resize|wait|zoom-in|zoom-out|initial/).test(costumeName);
+    let mouseSprite;
+    let args = arguments;
+    let isCustom = !(/alias|all-scroll|auto|cell|context-menu|col-resize|copy|crosshair|default|e-resize|ew-resize|grab|grabbing|help|move|n-resize|ne-resize|nesw-resize|ns-resize|nw-resize|nwse-resize|no-drop|none|not-allowed|pointer|progress|row-resize|s-resize|se-resize|sw-resize|text|vertical-text|w-resize|wait|zoom-in|zoom-out|initial/).test(costumeName);
     if (isCustom) {
 
         //make it hidden when on top of other elements
@@ -397,13 +397,13 @@ mouse.setCostume = function (costumeName) {
 
 
         //remove the current cursor if it exists
-        var cursor = document.getElementById("cursorImage");
+        let cursor = document.getElementById("cursorImage");
         if (cursor) {
             cursor.delete();
         }
 
         //When we get the mouse coordinates, create our fake mouse
-        var checkMouseReady = forever(function () {
+        let checkMouseReady = forever(function () {
             if (mouse.ready) {
                 //stop checking for the mouse.ready
                 stop(checkMouseReady);
@@ -420,7 +420,6 @@ mouse.setCostume = function (costumeName) {
                 //make sure that dragging the mouse doesn't drag the mouse sprite
                 mouseSprite.element.draggable = false;
                 mouseSprite.whenLoads = function () {
-                    console.log('mouseSprite.height:', mouseSprite.height);
                     //Forever go to the mouse
                     forever(function () {
                         //we have to shift the sprite's center such that it's top left corner is where our mouse is
@@ -449,12 +448,15 @@ document.onmouseup = function () {
     mouse.isDown = false;
 };
 
+
 /*Stage and DOM Initialization*/
-var whenPageLoads = function () {
+
+let whenPageLoads = function () {
 };
-var page = {};
-var bodyDiv;
-var style;
+
+let page = {};
+let bodyDiv;
+let style;
 window.onload = function () {
     page.originOffsetX = window.innerWidth / 2;
     page.originOffsetY = window.innerHeight / 2;
@@ -486,7 +488,7 @@ window.onresize = function () {
     page.originOffsetY = window.innerHeight / 2;
     page.maxX = page.originOffsetX;
     page.maxY = page.originOffsetY;
-    for (var spriteIndex in spritesArray) {
+    for (let spriteIndex in spritesArray) {
         spritesArray[spriteIndex].updateLocation();
     }
     bodyDiv.style.width = page.originOffsetX * 2 + "px";
@@ -504,13 +506,13 @@ function transpileCode() {
         console.error("Scratch-JS accessed through file:// Please run an localhost server and access it through http:// (default: localhost:8000)");
     } else {
         //Otherwise, do everything normally
-        var request = new XMLHttpRequest();
+        let request = new XMLHttpRequest();
         request.open("GET", "index.sjs");
         request.send();
         //when ready state changes and the new state, shows success, get the code and store it in the code variable
         request.onreadystatechange = function () {
             if (request.readyState === 4 && request.status == 200) {
-                var code = request.responseText;
+                let code = request.responseText;
                 //transpile SJS anonymous functions and SJS callbacks
                 code = transpileAnonymousFunctions(transpileCallbacks(code, 0));
                 eval(code);
@@ -522,7 +524,7 @@ function transpileCode() {
 
 function transpileCallbacks(code, currentIndex) {
     if (code.includes("({")) {
-        var indexOfCallback = code.indexOf("({", currentIndex) + 1;
+        let indexOfCallback = code.indexOf("({", currentIndex) + 1;
         //preform the replacement using insert (defined in polyfills)
         code = code.insert(indexOfCallback, "function()");
         return transpileCallbacks(code, indexOfCallback + 1);
