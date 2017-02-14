@@ -289,13 +289,15 @@ function Sprite(x, y, value, scaleFactor) {
             that.width = that.element.clientWidth;
             that.height = that.element.clientHeight;
 
-            if(thisReference.whenLoads){
+            if (thisReference.whenLoads) {
                 thisReference.whenLoads();
             }
         }
     }
 
-    this.whenClicked = function () {};
+    this.whenClicked = function () {
+    };
+
     this.element.addEventListener("mousedown", function () {
         mouse.isDown = true;
         thisReference.whenClicked()
@@ -396,7 +398,7 @@ mouse.setCostume = function (costumeName) {
 
         //remove the current cursor if it exists
         var cursor = document.getElementById("cursorImage");
-        if(cursor){
+        if (cursor) {
             cursor.delete();
         }
 
@@ -422,7 +424,7 @@ mouse.setCostume = function (costumeName) {
                     //Forever go to the mouse
                     forever(function () {
                         //we have to shift the sprite's center such that it's top left corner is where our mouse is
-                        mouseSprite.goTo(mouse.x+(mouseSprite.width/4), mouse.y-(mouseSprite.height/2));
+                        mouseSprite.goTo(mouse.x + (mouseSprite.width / 4), mouse.y - (mouseSprite.height / 2));
                     })
                 };
             }
