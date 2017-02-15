@@ -7,15 +7,21 @@ let spritesArray = [];
  * @param {Number} y starting y position of the sprite
  * @param {String} value sprite image file name or HTML tag
  * @param {Number} [scaleFactor] Optionally scale an image sprite by a scale factor (0-1)
- * @letructor
+ * @constructor
  */
 function Sprite(x, y, value, scaleFactor) {
     /*Sprite methods*/
 
+    let that = this;
+
     //updates both x and y
     this.updateLocation = function () {
-        this.element.style.left = (page.originOffsetX + this.x - (this.element.clientWidth / 2)) + "px";
-        this.element.style.top = (page.originOffsetY - this.y - (this.element.clientHeight / 2)) + "px";
+        this.element.style.left = page.originOffsetX - this.offsetX + this.x + "px";
+        this.element.style.top = page.originOffsetY - (this.offsetY + this.y) + "px";
+        if (this.penIsDown) {
+            ctx.lineTo(page.originOffsetX + this.x, page.originOffsetY - this.y);
+            ctx.stroke();
+        }
     };
 
     //updates only x
@@ -98,7 +104,7 @@ function Sprite(x, y, value, scaleFactor) {
     };
 
     /**
-     * Turns the sprite clockwise
+     * Turns the sprite counterclockwise
      * @param {Number} degrees The amount of degrees to turn the sprite
      */
     this.turn = function (degrees) {
@@ -109,7 +115,7 @@ function Sprite(x, y, value, scaleFactor) {
     this.rotate = this.turn;
 
     /**
-     * Multiple parameters usages: Points the sprite towards another sprite or a certain angle (right 0, up 90). Parameter: direction: angle (clockwise, can be negative), or sprite: sprite to point towards
+     * Multiple parameters usages: Points the sprite towards another sprite or a certain angle (right 0, up 90). Parameter: direction: angle (counterclockwise, can be negative), or sprite: sprite to point towards
      */
     this.pointInDirection = function () {
         if (typeof arguments[0] === "number") { //if the argument is a degree
@@ -246,6 +252,56 @@ function Sprite(x, y, value, scaleFactor) {
         }
     };
 
+    /**
+     * Whether or not the pen is down
+     * @type {boolean}
+     */
+    this.penIsDown = false;
+
+    /**
+     * Put the sprite's pen down
+     */
+    this.penDown = function () {
+        that.penIsDown = true;
+        //ctx.lineTo(this.element.style.left, this.element.style.top);
+        //ctx.lineTo(this.element.offsetLeft, 100);
+        //ctx.lineTo((page.originOffsetX + this.x - (this.element.clientWidth / 2)), (page.originOffsetY + this.y - (this.element.clientHeight / 2)));
+        //ctx.stroke();
+    };
+
+    /**
+     * Put the sprite's pen up
+     */
+    this.penUp = function () {
+        that.penIsDown = false;
+    };
+
+    /**
+     * Change the sprite's pen's color
+     * @param {String} color
+     */
+    this.changePenColor = function (color) {
+        ctx.strokeStyle = color;
+        ctx.shadowColor = color;
+    };
+
+    /**
+     * Change the sprite's pen's shadow size
+     * @param {String} size
+     */
+    this.changePenInkSize = function (size) {
+        ctx.shadowBlur = size;
+    };
+
+    /**
+     * Change the sprite's pen's size
+     * @param size
+     */
+    this.changePenSize = function (size) {
+        ctx.lineWidth = size;
+    };
+
+
     /*Sprite Initialisation*/
     this.x = x;
     this.y = y;
@@ -259,9 +315,9 @@ function Sprite(x, y, value, scaleFactor) {
     if (valueIsHtmlTag) {
         //if value is an html tag name
         let containingDiv = document.createElement("div");
-        this.element.classList.add("sprite");
         containingDiv.innerHTML = value;
         this.element = containingDiv.firstChild;
+        this.element.classList.add("sprite");
         this.updateLocation();
         document.body.appendChild(containingDiv);
         this.isImage = false;
@@ -270,11 +326,16 @@ function Sprite(x, y, value, scaleFactor) {
         //value is not html or error so custom sprite, use value as img src
         this.element = document.createElement("img");
         this.element.src = value;
-        this.element.classList.add("sprite");
         document.body.appendChild(this.element);
+        this.element.classList.add("sprite");
         this.element.style.visibility = "hidden";
         this.element.draggable = false;
         let that = this;
+
+        //if the mouse was already set to custom, make sure to not display the regular mouse when use hovers over sprite
+        if (mouse.isCustom) {
+            this.element.style.cursor = "none"
+        }
 
         this.element.onload = function () {
             //if size argument found, set it
@@ -282,12 +343,16 @@ function Sprite(x, y, value, scaleFactor) {
                 thisReference.resize(scaleFactor);
             }
 
+            that.width = that.element.clientWidth;
+            that.height = that.element.clientHeight;
+
+            that.offsetX = (that.element.clientWidth / 2);
+            that.offsetY = (that.element.clientHeight / 2);
+
+
             that.updateLocation();
             that.isImage = true;
             that.element.style.visibility = "initial";
-
-            that.width = that.element.clientWidth;
-            that.height = that.element.clientHeight;
 
             if (thisReference.whenLoads) {
                 thisReference.whenLoads();
@@ -377,7 +442,8 @@ let ask = prompt;
  */
 let mouse = {
     ready: false,
-    isDown: false
+    isDown: false,
+    isCustom: false
 };
 
 /**
@@ -387,8 +453,8 @@ let mouse = {
 mouse.setCostume = function (costumeName) {
     let mouseSprite;
     let args = arguments;
-    let isCustom = !(/alias|all-scroll|auto|cell|context-menu|col-resize|copy|crosshair|default|e-resize|ew-resize|grab|grabbing|help|move|n-resize|ne-resize|nesw-resize|ns-resize|nw-resize|nwse-resize|no-drop|none|not-allowed|pointer|progress|row-resize|s-resize|se-resize|sw-resize|text|vertical-text|w-resize|wait|zoom-in|zoom-out|initial/).test(costumeName);
-    if (isCustom) {
+    mouse.isCustom = !(/alias|all-scroll|auto|cell|context-menu|col-resize|copy|crosshair|default|e-resize|ew-resize|grab|grabbing|help|move|n-resize|ne-resize|nesw-resize|ns-resize|nw-resize|nwse-resize|no-drop|none|not-allowed|pointer|progress|row-resize|s-resize|se-resize|sw-resize|text|vertical-text|w-resize|wait|zoom-in|zoom-out|initial/).test(costumeName);
+    if (mouse.isCustom) {
 
         //make it hidden when on top of other elements
         Array.from(document.body.getElementsByTagName("*")).forEach(function (element) {
@@ -440,9 +506,9 @@ document.onmousemove = function () {
     mouse.ready = true;
 };
 
-document.onmousedown = function () {
+/*document.onmousedown = function () {
     mouse.isDown = true
-};
+ };*/
 
 document.onmouseup = function () {
     mouse.isDown = false;
@@ -457,6 +523,8 @@ let whenPageLoads = function () {
 let page = {};
 let bodyDiv;
 let style;
+let ctx; //common abbreviation for canvas context
+
 window.onload = function () {
     page.originOffsetX = window.innerWidth / 2;
     page.originOffsetY = window.innerHeight / 2;
@@ -468,15 +536,29 @@ window.onload = function () {
     bodyDiv.style.left = "0px";
     bodyDiv.id = "bodyDiv";
     document.body.insertBefore(bodyDiv, document.body.childNodes[0]);
-    /*document.body.appendChild(bodyDiv);*/
 
     //add styles
     style = document.createElement("style");
-    style.innerHTML = ".sprite, #bodyDiv { position: absolute; z-index: -1;} body { margin: 0; opacity: 0; overflow: hidden; } #cursorImage, img.sprite { user-select: none; z-index:2; pointer-events:none;}";
+    style.innerHTML = ".sprite, #bodyDiv { position: absolute; z-index: -1;} body { margin: 0; opacity: 0; overflow: hidden; } #cursorImage, img.sprite { user-select: none; z-index:2;} #cursorImage{pointer-events:none;}";
     document.getElementsByTagName('head')[0].appendChild(style);
 
+    //canvas setup
+    let canvas = document.createElement("canvas");
+    canvas.style.position = "absolute";
+    document.body.appendChild(canvas);
+    canvas.style.zIndex = "-1";
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+    ctx = canvas.getContext('2d');
+    ctx.lineJoin = ctx.lineCap = 'round';
+    ctx.lineWidth = 1;
+    ctx.shadowBlur = 0;
+    ctx.shadowColor = "rgb(0, 0, 0)";
+
+    //transpile code
     transpileCode();
 
+    //when the code loads, show the body and call the whenPageLoads event
     whenCodeLoads = function () {
         document.body.style.opacity = "1";
         whenPageLoads();
