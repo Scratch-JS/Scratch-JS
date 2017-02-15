@@ -322,6 +322,11 @@ function Sprite(x, y, value, scaleFactor) {
         document.body.appendChild(containingDiv);
         this.isImage = false;
         this.element.draggable = false;
+
+        //if the mouse was already set to custom, make sure to not display the regular mouse when use hovers over sprite
+        if (mouse.isCustom) {
+            this.element.style.cursor = "none"
+        }
     } else {
         //value is not html or error so custom sprite, use value as img src
         this.element = document.createElement("img");
