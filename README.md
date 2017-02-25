@@ -7,7 +7,7 @@ Scratch-JS is designed to be the next step from Scratch, and is an adaptation of
 
 Without comments:
 ```javascript
-whenPageLoads{
+whenPageLoads {
     mySprite = new Sprite(0, 0, "sprite.jpg");
     mySprite.turn(45)
     mySprite.move(50)
@@ -19,18 +19,18 @@ whenPageLoads{
 
 With Comments
 ```javascript
-//when the page loads (similar to "When Green Flag is Pressed"
+// WhenPageLoads (similar to "When Green Flag is Pressed"
 whenPageLoads{
-    //create a new sprite at position (0,0)
+    // Create a new sprite at position (0,0)
     mySprite = new Sprite(0, 0, "sprite.jpg");
     
-    //turn the sprite clockwise 45 degrees
+    // Turn the sprite clockwise 45 degrees
     mySprite.turn(45)
     
-    //move 50 pixels in the direction it's facing
+    // Move 50 pixels in the direction it's facing
     mySprite.move(50)
     
-    //wait 1000ms (1 second)
+    // Wait 1000ms (1 second)
     wait(1000).then({
        //go to (100, 0) - 100 pixels from the center
        mySprite.goTo(100,0); 
@@ -38,9 +38,9 @@ whenPageLoads{
 }
 ```
 
-#You can even make sprites out of HTML tags!
+# You can even make sprites out of HTML tags!
 ```javascript
-whenPageLoads{
+whenPageLoads {
     mySprite = new Sprite(0, 0, "<button>click me</button>");
 }
 ```
