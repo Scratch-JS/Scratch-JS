@@ -46,6 +46,11 @@ whenPageLoads {
 ```
 HTML tag sprites mean that you can use Scratch-JS to make full webpages and games that use real HTML components.
 
+# Use
+You can use Scratch-JS by referenceing it in a HTML page like so
+```html
+<script src="https://rawgit.com/Scratch-JS/Scratch-JS/master/index.min.js"></script>
+```
 ## Reporting Bugs
 
   If you have any questions or would like to report a bug, please go to issue tab and create a new issue.
