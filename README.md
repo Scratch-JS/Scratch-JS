@@ -3,7 +3,7 @@ How can you not love [Scratch](https://scratch.mit.edu)'s amazingly easy to use 
 
 Scratch-JS is designed to be the next step from Scratch, and is an adaptation of the JavaScript coding language. The best part is, Scratch-JS uses JIT Transpilation to allow your code to run in any browser, in your own webpage. Scratch-JS lets you choose whether you write Scratch-JS code in regular JavaScript or if you would like to use the simpilfied syntax provided. 
 
-# Here's what Scratch-JS looks like:
+# Here's what Scratch-JS looks like
 
 Without comments:
 ```javascript
@@ -17,7 +17,7 @@ whenPageLoads {
 }
 ```
 
-With Comments
+### With Comments
 ```javascript
 // WhenPageLoads (similar to "When Green Flag is Pressed"
 whenPageLoads{
@@ -46,7 +46,7 @@ whenPageLoads {
 ```
 HTML tag sprites mean that you can use Scratch-JS to make full webpages and games that use real HTML components.
 
-# Use
+# Use Scratch-JS
 You can use Scratch-JS by referenceing it in a HTML page like so
 ```html
 <script src="https://rawgit.com/Scratch-JS/Scratch-JS/master/index.min.js"></script>
