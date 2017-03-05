@@ -20,7 +20,7 @@ whenPageLoads {
 ### With Comments
 ```javascript
 // WhenPageLoads (similar to "When Green Flag is Pressed"
-whenPageLoads{
+whenPageLoads {
     // Create a new sprite at position (0,0)
     mySprite = new Sprite(0, 0, "sprite.jpg");
     
