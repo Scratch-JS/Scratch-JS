@@ -510,10 +510,6 @@ document.onmousemove = function () {
     mouse.ready = true;
 };
 
-/*document.onmousedown = function () {
-    mouse.isDown = true
- };*/
-
 document.onmouseup = function () {
     mouse.isDown = false;
 };
