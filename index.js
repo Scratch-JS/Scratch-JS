@@ -456,7 +456,6 @@ let mouse = {
  * @param {String} costumeName Image or CSS mouse pointer name
  */
 mouse.setCostume = function (costumeName) {
-    let mouseSprite;
     let args = arguments;
     mouse.isCustom = !(/alias|all-scroll|auto|cell|context-menu|col-resize|copy|crosshair|default|e-resize|ew-resize|grab|grabbing|help|move|n-resize|ne-resize|nesw-resize|ns-resize|nw-resize|nwse-resize|no-drop|none|not-allowed|pointer|progress|row-resize|s-resize|se-resize|sw-resize|text|vertical-text|w-resize|wait|zoom-in|zoom-out|initial/).test(costumeName);
     if (mouse.isCustom) {
@@ -481,20 +480,20 @@ mouse.setCostume = function (costumeName) {
                 //If size argument is included pass it on when creating the fake mouse's sprite
                 if (args[1] !== undefined) {
                     //create the fake mouse without a size argument
-                    mouseSprite = new Sprite(0, 0, costumeName, args[1]);
+                    mouse.sprite = new Sprite(0, 0, costumeName, args[1]);
                 } else {
                     //create the fake mouse without a size argument
-                    mouseSprite = new Sprite(0, 0, costumeName);
+                    mouse.sprite = new Sprite(0, 0, costumeName);
                 }
                 //add the id
-                mouseSprite.element.id = "cursorImage";
+                mouse.sprite.element.id = "cursorImage";
                 //make sure that dragging the mouse doesn't drag the mouse sprite
-                mouseSprite.element.draggable = false;
-                mouseSprite.whenLoads = function () {
+                mouse.sprite.element.draggable = false;
+                mouse.sprite.whenLoads = function () {
                     //Forever go to the mouse
                     forever(function () {
                         //we have to shift the sprite's center such that it's top left corner is where our mouse is
-                        mouseSprite.goTo(mouse.x + (mouseSprite.width / 4), mouse.y - (mouseSprite.height / 2));
+                        mouse.sprite.goTo(mouse.x + (mouse.sprite.width / 4), mouse.y - (mouse.sprite.height / 2));
                     })
                 };
             }
@@ -544,7 +543,7 @@ window.onload = function () {
 
     //add styles
     style = document.createElement("style");
-    style.innerHTML = ".sprite, #bodyDiv { position: absolute; z-index: -1;} body { margin: 0; opacity: 0; overflow: hidden; } #cursorImage, img.sprite { user-select: none; z-index:2;} #cursorImage{pointer-events:none;}";
+    style.innerHTML = ".sprite, #bodyDiv { position: absolute; z-index: -1;} body { margin: 0; opacity: 0; overflow: hidden; } #cursorImage, img.sprite { user-select: none; z-index:2;} #cursorImage{pointer-events:none; z-index:3; position: relative}";
     document.getElementsByTagName('head')[0].appendChild(style);
 
     //canvas setup
