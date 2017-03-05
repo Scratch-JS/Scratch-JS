@@ -5,7 +5,7 @@ Scratch-JS is designed to be the next step from Scratch, and is an adaptation of
 
 # Here's what Scratch-JS looks like
 
-Without comments:
+### Without comments:
 ```javascript
 whenPageLoads {
     mySprite = new Sprite(0, 0, "sprite.jpg");
