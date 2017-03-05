@@ -432,6 +432,24 @@ let say = alert;
  */
 let think = console.log;
 
+/**
+ * Picks random number based on numbers given
+ * @param {Number} min The lowest number
+ * @param {Number) max The highest number
+ */
+function random(min, max) {
+	var rf = min;
+	var rt = max;
+	if (isNaN(rf)) rf=0;
+	if (isNaN(rt)) rt=0;
+	if (rt<rf)
+		{
+			var t=rt;
+			rt=rf;
+			rf=t;
+		}
+	return Math.floor(rf + Math.random() * (rt - rf + 1));
+}
 
 /**
  * Asks something (uses JavaScript prompt)
