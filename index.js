@@ -331,11 +331,6 @@ function Sprite(x, y, value, scaleFactor) {
 
 
         this.updateLocation();
-
-        //if the mouse was already set to custom, make sure to not display the regular mouse when use hovers over sprite
-        if (mouse.isCustom) {
-            this.element.style.cursor = "none"
-        }
     } else {
         //value is not html or error so custom sprite, use value as img src
         this.element = document.createElement("img");
@@ -345,11 +340,6 @@ function Sprite(x, y, value, scaleFactor) {
         this.element.style.visibility = "hidden";
         this.element.draggable = false;
         let that = this;
-
-        //if the mouse was already set to custom, make sure to not display the regular mouse when use hovers over sprite
-        if (mouse.isCustom) {
-            this.element.style.cursor = "none"
-        }
 
         this.element.onload = function () {
             //if size argument found, set it
@@ -372,6 +362,11 @@ function Sprite(x, y, value, scaleFactor) {
                 thisReference.whenLoads();
             }
         }
+    }
+
+    //if the mouse was already set to custom, make sure to not display the regular mouse when use hovers over sprite
+    if (mouse.isCustom) {
+        this.element.style.cursor = "none"
     }
 
     this.whenClicked = function () {
@@ -556,7 +551,7 @@ window.onload = function () {
 
     //add styles
     style = document.createElement("style");
-    style.innerHTML = ".sprite, #bodyDiv { position: absolute; z-index: -1;} body { margin: 0; opacity: 0; overflow: hidden; } #cursorImage, img.sprite { user-select: none; z-index:2;} #cursorImage{pointer-events:none; z-index:3; position: relative}";
+    style.innerHTML = ".sprite, #bodyDiv { position: absolute;} body { margin: 0; opacity: 0; overflow: hidden; } #cursorImage, img.sprite { user-select: none;} #cursorImage{pointer-events:none; z-index:1; position: relative}";
     document.getElementsByTagName('head')[0].appendChild(style);
 
     //canvas setup
