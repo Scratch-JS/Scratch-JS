@@ -318,10 +318,19 @@ function Sprite(x, y, value, scaleFactor) {
         containingDiv.innerHTML = value;
         this.element = containingDiv.firstChild;
         this.element.classList.add("sprite");
-        this.updateLocation();
         document.body.appendChild(containingDiv);
+
         this.isImage = false;
         this.element.draggable = false;
+
+        this.width = this.element.clientWidth;
+        this.height = this.element.clientHeight;
+
+        this.offsetX = (this.element.clientWidth / 2);
+        this.offsetY = (this.element.clientHeight / 2);
+
+
+        this.updateLocation();
 
         //if the mouse was already set to custom, make sure to not display the regular mouse when use hovers over sprite
         if (mouse.isCustom) {
