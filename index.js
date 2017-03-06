@@ -302,6 +302,23 @@ function Sprite(x, y, value, scaleFactor) {
     };
 
 
+    this.clearPen = function () {
+        canvas.remove();
+        //make a new canvas
+        canvas = document.createElement("canvas");
+        canvas.style.position = "absolute";
+        document.body.appendChild(canvas);
+        canvas.style.zIndex = "-1";
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+        ctx = canvas.getContext('2d');
+        ctx.lineJoin = ctx.lineCap = 'round';
+        ctx.lineWidth = 1;
+        ctx.shadowBlur = 0;
+        ctx.shadowColor = "rgb(0, 0, 0)";
+    };
+
+
     /*Sprite Initialisation*/
     this.x = x;
     this.y = y;
@@ -536,6 +553,7 @@ let page = {};
 let bodyDiv;
 let style;
 let ctx; //common abbreviation for canvas context
+let canvas;
 
 window.onload = function () {
     page.originOffsetX = window.innerWidth / 2;
@@ -555,7 +573,7 @@ window.onload = function () {
     document.getElementsByTagName('head')[0].appendChild(style);
 
     //canvas setup
-    let canvas = document.createElement("canvas");
+    canvas = document.createElement("canvas");
     canvas.style.position = "absolute";
     document.body.appendChild(canvas);
     canvas.style.zIndex = "-1";
