@@ -302,6 +302,9 @@ function Sprite(x, y, value, scaleFactor) {
     };
 
 
+    /**
+     * Clears the sprite's pen
+     */
     this.clearPen = function () {
         canvas.remove();
         //make a new canvas
