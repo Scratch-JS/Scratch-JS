@@ -442,12 +442,11 @@ function random(min, max) {
 	var max_ = max;
 	if (isNaN(min_)) min_=0;
 	if (isNaN(max_)) max_=0;
-	if (min_ < max_)
-		{
-			var t=max_;
-			max_=min_;
-			max_=t;
-		}
+	if (min_ < max_) {
+		var t = max_;
+		max_ = min_;
+		max_ = t;
+	}
 	return Math.floor(max_ + Math.random() * (min_ - max_ + 1));
 }
 
