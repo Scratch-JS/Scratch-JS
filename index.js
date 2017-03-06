@@ -435,19 +435,10 @@ let think = console.log;
 /**
  * Picks random number based on numbers given
  * @param {Number} min The lowest number
- * @param {Number) max The highest number
+ * @param {Number} max The highest number
  */
 function random(min, max) {
-	var min_ = min;
-	var max_ = max;
-	if (isNaN(min_)) min_=0;
-	if (isNaN(max_)) max_=0;
-	if (min_ < max_) {
-		var t = max_;
-		max_ = min_;
-		max_ = t;
-	}
-	return Math.floor(max_ + Math.random() * (min_ - max_ + 1));
+	return Math.floor((Math.random() * max) + min);
 }
 
 /**
