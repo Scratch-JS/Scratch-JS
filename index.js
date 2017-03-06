@@ -438,17 +438,17 @@ let think = console.log;
  * @param {Number) max The highest number
  */
 function random(min, max) {
-	var rf = min;
-	var rt = max;
-	if (isNaN(rf)) rf=0;
-	if (isNaN(rt)) rt=0;
-	if (rt<rf)
+	var min_ = min;
+	var max_ = max;
+	if (isNaN(min_)) min_=0;
+	if (isNaN(max_)) max_=0;
+	if (min_ < max_)
 		{
-			var t=rt;
-			rt=rf;
-			rf=t;
+			var t=max_;
+			max_=min_;
+			max_=t;
 		}
-	return Math.floor(rf + Math.random() * (rt - rf + 1));
+	return Math.floor(max_ + Math.random() * (min_ - max_ + 1));
 }
 
 /**
