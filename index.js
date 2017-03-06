@@ -646,8 +646,14 @@ function transpileCallbacks(code, currentIndex) {
 }
 
 function transpileAnonymousFunctions(code) {
-    //REGEX checks if { exists after the end boundary of a word (with optional whitespace in between)
-    return code.replace(/\b\s*\{/g, "=function(){");
+    let linesOfCode = code.split("\n");
+    for(let i in linesOfCode){
+        if(/^[A-Za-z_.-]*\s*{/g.test(linesOfCode[i])){
+            linesOfCode[i] = linesOfCode[i].replaceLast("{", "=function(){")
+        }
+    }
+
+    return linesOfCode.join("\n")
 }
 
 
@@ -676,4 +682,9 @@ String.prototype.insert = function (index, stringToAdd) {
 
 Node.prototype.delete = function () {
     this.parentNode.removeChild(this)
+};
+
+String.prototype.replaceLast = function(substring, replacement){
+    let n = this.lastIndexOf(substring);
+    return this.slice(0, n) + this.slice(n).replace(substring, replacement);
 };
