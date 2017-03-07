@@ -694,7 +694,7 @@ function transpileCallbacks(code, currentIndex) {
 function transpileAnonymousFunctions(code) {
     let linesOfCode = code.split("\n");
     for(let i in linesOfCode){
-        if(/^[A-Za-z_.-]*\s*{/g.test(linesOfCode[i].trim())){
+        if(/^[A-Za-z_.-]*\s*\{/g.test(linesOfCode[i].trim())){
             linesOfCode[i] = linesOfCode[i].replaceLast("{", "=function(){")
         }
     }
