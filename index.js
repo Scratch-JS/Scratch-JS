@@ -321,6 +321,44 @@ function Sprite(x, y, value, scaleFactor) {
         ctx.shadowColor = "rgb(0, 0, 0)";
     };
 
+    this.clone = function () {
+        let copy = Object.assign({}, this); //copy this into a new(empty) object
+
+        //create a function that we will use to actually clone the Sprite element
+        let cloneTheElement = () => {
+            copy.element = copy.element.cloneNode(true);
+            document.body.appendChild(copy.element);
+            copy.element.style = this.element.style;
+            copy.element.style.cssText = this.element.style.cssText;
+        };
+
+        //check if the current sprite is already loaded
+        if (this.loaded) {
+            //if it's already loaded, we don't need to do anything special, just clone the element
+            cloneTheElement()
+        } else {
+            //if the current sprite's element didn't load yet, we need to wait for it to load
+            this.element.addEventListener("load", () => {
+                //then we can actually clone the element
+                cloneTheElement();
+
+                //update some sprite init info
+                copy.width = copy.element.clientWidth;
+                copy.height = copy.element.clientHeight;
+
+                copy.offsetX = (copy.element.clientWidth / 2);
+                copy.offsetY = (copy.element.clientHeight / 2);
+
+                copy.updateLocation();
+            })
+        }
+
+        //add the new sprite to the spritesArray (used to keep track of all Sprites and update positions on resize)
+        spritesArray.push(copy);
+
+        return copy
+    };
+
 
     /*Sprite Initialisation*/
     this.x = x;
@@ -351,6 +389,8 @@ function Sprite(x, y, value, scaleFactor) {
 
 
         this.updateLocation();
+
+        this.loaded = true;
     } else {
         //value is not html or error so custom sprite, use value as img src
         this.element = document.createElement("img");
@@ -359,6 +399,7 @@ function Sprite(x, y, value, scaleFactor) {
         this.element.classList.add("sprite");
         this.element.style.visibility = "hidden";
         this.element.draggable = false;
+        this.loaded = false;
         let that = this;
 
         this.element.onload = function () {
@@ -366,6 +407,8 @@ function Sprite(x, y, value, scaleFactor) {
             if (scaleFactor) {
                 thisReference.resize(scaleFactor);
             }
+
+            that.loaded = true;
 
             that.width = that.element.clientWidth;
             that.height = that.element.clientHeight;
@@ -402,10 +445,10 @@ function Sprite(x, y, value, scaleFactor) {
 
 /**
  * Repeat a block of code (callback)
- * @param {Number} times The amount of times to repeat it
  * @param {Function} callback The block of code
+ * @param {Number} times The amount of times to repeat it
  */
-function repeat(times, callback) {
+function repeat(callback, times) {
     for (let i = 0; i < times; i++) {
         callback();
     }
