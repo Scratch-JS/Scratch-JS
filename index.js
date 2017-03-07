@@ -10,9 +10,6 @@ let spritesArray = [];
  * @constructor
  */
 function Sprite(x, y, value, scaleFactor) {
-    /*Sprite methods*/
-
-    let that = this;
 
     //updates both x and y
     this.updateLocation = function () {
@@ -201,13 +198,13 @@ function Sprite(x, y, value, scaleFactor) {
             length = arguments[1];
         }
         this.element.style.transition = "left " + length + "ms linear, top " + length + "ms linear";
-        wait(1).then(function () {
-            thisReference.goTo(x, y);
+        wait(1).then(()=>{
+            this.goTo(x, y);
         });
         return new Promise(function (resolve) {
-            setTimeout(function () {
+            setTimeout(()=>{
                 //After animation finishes, reset the sprites transition property
-                thisReference.element.style.transition = "left 0ms, top 0ms";
+                this.element.style.transition = "left 0ms, top 0ms";
                 //resolve the promise
                 resolve();
             }, length);
@@ -262,18 +259,14 @@ function Sprite(x, y, value, scaleFactor) {
      * Put the sprite's pen down
      */
     this.penDown = function () {
-        that.penIsDown = true;
-        //ctx.lineTo(this.element.style.left, this.element.style.top);
-        //ctx.lineTo(this.element.offsetLeft, 100);
-        //ctx.lineTo((page.originOffsetX + this.x - (this.element.clientWidth / 2)), (page.originOffsetY + this.y - (this.element.clientHeight / 2)));
-        //ctx.stroke();
+        this.penIsDown = true;
     };
 
     /**
      * Put the sprite's pen up
      */
     this.penUp = function () {
-        that.penIsDown = false;
+        this.penIsDown = false;
     };
 
     /**
@@ -366,8 +359,6 @@ function Sprite(x, y, value, scaleFactor) {
     this.direction = 0;
     this.isHidden = false;
     spritesArray.push(this);
-    //Sometimes this get changed inside other scopes, so using another variable as reference
-    let thisReference = this;
 
     let valueIsHtmlTag = (/<(br|basefont|hr|input|source|frame|param|area|meta|!--|col|link|option|base|img|wbr|!DOCTYPE).*?>|<(a|abbr|acronym|address|applet|article|aside|audio|b|bdi|bdo|big|blockquote|body|button|canvas|caption|center|cite|code|colgroup|command|datalist|dd|del|details|dfn|dialog|dir|div|dl|dt|em|embed|fieldset|figcaption|figure|font|footer|form|frameset|head|header|hgroup|h1|h2|h3|h4|h5|h6|html|i|iframe|ins|kbd|keygen|label|legend|li|map|mark|menu|meter|nav|noframes|noscript|object|ol|optgroup|output|p|pre|progress|q|rp|rt|ruby|s|samp|script|section|select|small|span|strike|strong|style|sub|summary|sup|table|tbody|td|textarea|tfoot|th|thead|time|title|tr|track|tt|u|ul|var|video).*?<\/\2>/i.test(value));
     if (valueIsHtmlTag) {
@@ -400,29 +391,28 @@ function Sprite(x, y, value, scaleFactor) {
         this.element.style.visibility = "hidden";
         this.element.draggable = false;
         this.loaded = false;
-        let that = this;
 
-        this.element.onload = function () {
+        this.element.onload = ()=>{
             //if size argument found, set it
             if (scaleFactor) {
-                thisReference.resize(scaleFactor);
+                this.resize(scaleFactor);
             }
 
-            that.loaded = true;
+            this.loaded = true;
 
-            that.width = that.element.clientWidth;
-            that.height = that.element.clientHeight;
+            this.width = this.element.clientWidth;
+            this.height = this.element.clientHeight;
 
-            that.offsetX = (that.element.clientWidth / 2);
-            that.offsetY = (that.element.clientHeight / 2);
+            this.offsetX = (this.element.clientWidth / 2);
+            this.offsetY = (this.element.clientHeight / 2);
 
 
-            that.updateLocation();
-            that.isImage = true;
-            that.element.style.visibility = "initial";
+            this.updateLocation();
+            this.isImage = true;
+            this.element.style.visibility = "initial";
 
-            if (thisReference.whenLoads) {
-                thisReference.whenLoads();
+            if (this.whenLoads) {
+                this.whenLoads();
             }
         }
     }
@@ -435,9 +425,9 @@ function Sprite(x, y, value, scaleFactor) {
     this.whenClicked = function () {
     };
 
-    this.element.addEventListener("mousedown", function () {
+    this.element.addEventListener("mousedown", () => {
         mouse.isDown = true;
-        thisReference.whenClicked()
+        this.whenClicked()
     });
 }
 
