@@ -363,6 +363,13 @@ function Sprite(x, y, value, scaleFactor) {
         document.body.insertBefore(this.element, null)
     };
 
+    /**
+     * Moves the sprite to the back layer
+     */
+    this.goToBack = function () {
+        document.body.insertBefore(this.element, document.body.childNodes[0])
+    };
+
 
     /*Sprite Initialisation*/
     this.x = x;
