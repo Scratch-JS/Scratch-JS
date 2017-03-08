@@ -370,6 +370,19 @@ function Sprite(x, y, value, scaleFactor) {
         document.body.insertBefore(this.element, document.body.childNodes[0])
     };
 
+    /**
+     * Move the sprite back an amount of layers (amount is optional)
+     * @param {Number} [amount]
+     */
+    this.goBackward = function (amount=1) {
+        let elementToInsertBefore = this.element;
+
+        for(let i = 0; i < amount; i++){
+            elementToInsertBefore = elementToInsertBefore.previousSibling;
+        }
+
+        document.body.insertBefore(this.element, elementToInsertBefore)
+    };
 
     /*Sprite Initialisation*/
     this.x = x;
