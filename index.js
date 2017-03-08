@@ -378,7 +378,9 @@ function Sprite(x, y, value, scaleFactor) {
         let elementToInsertBefore = this.element;
 
         for (let i = 0; i < amount; i++) {
-            elementToInsertBefore = elementToInsertBefore.previousSibling;
+            if (elementToInsertBefore) {
+                elementToInsertBefore = elementToInsertBefore.previousSibling;
+            }
         }
 
         document.body.insertBefore(this.element, elementToInsertBefore)
@@ -392,7 +394,9 @@ function Sprite(x, y, value, scaleFactor) {
         let elementToInsertBefore = this.element;
 
         for (let i = 0; i < amount + 1; i++) { // + 1 since we use insertBefore() later on and we want to insert after
-            elementToInsertBefore = elementToInsertBefore.nextSibling;
+            if (elementToInsertBefore) {
+                elementToInsertBefore = elementToInsertBefore.nextSibling;
+            }
         }
 
         document.body.insertBefore(this.element, elementToInsertBefore)
