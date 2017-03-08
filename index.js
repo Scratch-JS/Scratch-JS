@@ -421,6 +421,10 @@ function Sprite(x, y, value, scaleFactor) {
         }
     }
 
+    this.goToFront = function () {
+        document.body.insertBefore(this.element, null)
+    };
+
     //if the mouse was already set to custom, make sure to not display the regular mouse when use hovers over sprite
     if (mouse.isCustom) {
         this.element.style.cursor = "none"
