@@ -198,11 +198,11 @@ function Sprite(x, y, value, scaleFactor) {
             length = arguments[1];
         }
         this.element.style.transition = "left " + length + "ms linear, top " + length + "ms linear";
-        wait(1).then(()=>{
+        wait(1).then(() => {
             this.goTo(x, y);
         });
         return new Promise(function (resolve) {
-            setTimeout(()=>{
+            setTimeout(() => {
                 //After animation finishes, reset the sprites transition property
                 this.element.style.transition = "left 0ms, top 0ms";
                 //resolve the promise
@@ -396,7 +396,7 @@ function Sprite(x, y, value, scaleFactor) {
         this.element.draggable = false;
         this.loaded = false;
 
-        this.element.onload = ()=>{
+        this.element.onload = () => {
             //if size argument found, set it
             if (scaleFactor) {
                 this.resize(scaleFactor);
@@ -500,7 +500,7 @@ let think = console.log;
  * @param {Number} max The highest number
  */
 function random(min, max) {
-	return Math.floor((Math.random() * max) + min);
+    return Math.floor((Math.random() * max) + min);
 }
 
 /**
@@ -601,10 +601,10 @@ backdrop = {isSet: false};
  * @param {String} value An image URL or a CSS color (hex or color name)
  */
 backdrop.set = function (value) {
-    if(isValidCSSColor(value)){
+    if (isValidCSSColor(value)) {
         bodyDiv.style.backgroundColor = value;
         backdrop.isColor = true;
-    }else{
+    } else {
         bodyDiv.style.backgroundImage = `url('${value}')`;
         backdrop.isColor = false;
     }
@@ -615,11 +615,11 @@ backdrop.set = function (value) {
  * Removes the backdrop if it was set
  */
 backdrop.remove = function () {
-    if(backdrop.isSet){
-        if(backdrop.isColor){
+    if (backdrop.isSet) {
+        if (backdrop.isColor) {
             bodyDiv.style.backgroundColor = "initial";
             backdrop.isSet = false
-        }else{
+        } else {
             bodyDiv.style.backgroundImage = "initial";
             backdrop.isSet = false;
         }
@@ -651,7 +651,7 @@ window.onload = function () {
 
     //add styles
     style = document.createElement("style");
-    style.innerHTML = ".sprite, #bodyDiv { position: absolute; background-size: cover;} body { margin: 0; opacity: 0; overflow: hidden; } #cursorImage, img.sprite { user-select: none;} #cursorImage{pointer-events:none; z-index:1; position: relative}";
+    style.innerHTML = ".sprite, #bodyDiv { position: absolute;} #bodyDiv{background-size: cover;} body { margin: 0; opacity: 0; overflow: hidden; } #cursorImage, img.sprite { user-select: none;} #cursorImage{pointer-events:none; z-index:1; position: relative}";
     document.getElementsByTagName('head')[0].appendChild(style);
 
     //canvas setup
@@ -730,8 +730,8 @@ function transpileCallbacks(code, currentIndex) {
 
 function transpileAnonymousFunctions(code) {
     let linesOfCode = code.split("\n");
-    for(let i in linesOfCode){
-        if(/^[A-Za-z_.-]*\s*\{/g.test(linesOfCode[i].trim())){
+    for (let i in linesOfCode) {
+        if (/^[A-Za-z_.-]*\s*\{/g.test(linesOfCode[i].trim())) {
             linesOfCode[i] = linesOfCode[i].replaceLast("{", "=function(){")
         }
     }
@@ -767,21 +767,29 @@ Node.prototype.delete = function () {
     this.parentNode.removeChild(this)
 };
 
-String.prototype.replaceLast = function(substring, replacement){
+String.prototype.replaceLast = function (substring, replacement) {
     let n = this.lastIndexOf(substring);
     return this.slice(0, n) + this.slice(n).replace(substring, replacement);
 };
 
 function isValidCSSColor(stringToTest) {
     //Alter the following conditions according to your need.
-    if (stringToTest === "") { return false; }
-    if (stringToTest === "inherit") { return false; }
-    if (stringToTest === "transparent") { return false; }
+    if (stringToTest === "") {
+        return false;
+    }
+    if (stringToTest === "inherit") {
+        return false;
+    }
+    if (stringToTest === "transparent") {
+        return false;
+    }
 
     var image = document.createElement("img");
     image.style.color = "rgb(0, 0, 0)";
     image.style.color = stringToTest;
-    if (image.style.color !== "rgb(0, 0, 0)") { return true; }
+    if (image.style.color !== "rgb(0, 0, 0)") {
+        return true;
+    }
     image.style.color = "rgb(255, 255, 255)";
     image.style.color = stringToTest;
     return image.style.color !== "rgb(255, 255, 255)";
