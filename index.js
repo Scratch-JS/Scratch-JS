@@ -384,6 +384,20 @@ function Sprite(x, y, value, scaleFactor) {
         document.body.insertBefore(this.element, elementToInsertBefore)
     };
 
+    /**
+     * Move the sprite forward an amount of layers (amount is optional)
+     * @param {Number} [amount]
+     */
+    this.goForward = function (amount = 1) {
+        let elementToInsertBefore = this.element;
+
+        for (let i = 0; i < amount + 1; i++) { // + 1 since we use insertBefore() later on and we want to insert after
+            elementToInsertBefore = elementToInsertBefore.nextSibling;
+        }
+
+        document.body.insertBefore(this.element, elementToInsertBefore)
+    };
+
     /*Sprite Initialisation*/
     this.x = x;
     this.y = y;
