@@ -788,7 +788,7 @@ function isValidCSSColor(stringToTest) {
         return false;
     }
 
-    var image = document.createElement("img");
+    let image = document.createElement("img");
     image.style.color = "rgb(0, 0, 0)";
     image.style.color = stringToTest;
     if (image.style.color !== "rgb(0, 0, 0)") {
