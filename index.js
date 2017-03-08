@@ -314,6 +314,10 @@ function Sprite(x, y, value, scaleFactor) {
         ctx.shadowColor = "rgb(0, 0, 0)";
     };
 
+    /**
+     * Clones a sprite and returns the clone
+     * @returns {Sprite} Clone
+     */
     this.clone = function () {
         let copy = Object.assign({}, this); //copy this into a new(empty) object
 
