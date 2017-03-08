@@ -374,10 +374,10 @@ function Sprite(x, y, value, scaleFactor) {
      * Move the sprite back an amount of layers (amount is optional)
      * @param {Number} [amount]
      */
-    this.goBackward = function (amount=1) {
+    this.goBackward = function (amount = 1) {
         let elementToInsertBefore = this.element;
 
-        for(let i = 0; i < amount; i++){
+        for (let i = 0; i < amount; i++) {
             elementToInsertBefore = elementToInsertBefore.previousSibling;
         }
 
