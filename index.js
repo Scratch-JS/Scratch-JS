@@ -510,6 +510,12 @@ function random(min, max) {
 let ask = prompt;
 
 
+whenKeyPressed = function () {
+};
+
+window.addEventListener("keypress", event => whenKeyPressed());
+
+
 /*Mouse Stuff*/
 
 /**
