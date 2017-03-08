@@ -431,6 +431,7 @@ function Sprite(x, y, value, scaleFactor) {
     });
 }
 
+
 /*Global Scratch-JS Functions*/
 
 /**
@@ -503,6 +504,7 @@ function random(min, max) {
  * @param {String} text
  */
 let ask = prompt;
+
 
 /*Mouse Stuff*/
 
@@ -580,6 +582,40 @@ document.onmouseup = function () {
 };
 
 
+/*Backdrop*/
+
+backdrop = {isSet: false};
+
+/**
+ * Set's a background
+ * @param {String} value An image URL or a CSS color (hex or color name)
+ */
+backdrop.set = function (value) {
+    if(isValidCSSColor(value)){
+        bodyDiv.style.backgroundColor = value;
+        backdrop.isColor = true;
+    }else{
+        bodyDiv.style.backgroundImage = `url('${value}')`;
+        backdrop.isColor = false;
+    }
+    backdrop.isSet = true
+};
+
+/**
+ * Removes the backdrop if it was set
+ */
+backdrop.remove = function () {
+    if(backdrop.isSet){
+        if(backdrop.isColor){
+            bodyDiv.style.backgroundColor = "initial";
+            backdrop.isSet = false
+        }else{
+            bodyDiv.style.backgroundImage = "initial";
+            backdrop.isSet = false;
+        }
+    }
+};
+
 /*Stage and DOM Initialization*/
 
 let whenPageLoads = function () {
@@ -605,7 +641,7 @@ window.onload = function () {
 
     //add styles
     style = document.createElement("style");
-    style.innerHTML = ".sprite, #bodyDiv { position: absolute;} body { margin: 0; opacity: 0; overflow: hidden; } #cursorImage, img.sprite { user-select: none;} #cursorImage{pointer-events:none; z-index:1; position: relative}";
+    style.innerHTML = ".sprite, #bodyDiv { position: absolute; background-size: cover;} body { margin: 0; opacity: 0; overflow: hidden; } #cursorImage, img.sprite { user-select: none;} #cursorImage{pointer-events:none; z-index:1; position: relative}";
     document.getElementsByTagName('head')[0].appendChild(style);
 
     //canvas setup
@@ -645,6 +681,7 @@ window.onresize = function () {
 
 
 /*Transpiler*/
+
 function whenCodeLoads() {
 }
 
@@ -724,3 +761,18 @@ String.prototype.replaceLast = function(substring, replacement){
     let n = this.lastIndexOf(substring);
     return this.slice(0, n) + this.slice(n).replace(substring, replacement);
 };
+
+function isValidCSSColor(stringToTest) {
+    //Alter the following conditions according to your need.
+    if (stringToTest === "") { return false; }
+    if (stringToTest === "inherit") { return false; }
+    if (stringToTest === "transparent") { return false; }
+
+    var image = document.createElement("img");
+    image.style.color = "rgb(0, 0, 0)";
+    image.style.color = stringToTest;
+    if (image.style.color !== "rgb(0, 0, 0)") { return true; }
+    image.style.color = "rgb(255, 255, 255)";
+    image.style.color = stringToTest;
+    return image.style.color !== "rgb(255, 255, 255)";
+}
