@@ -511,20 +511,23 @@ function wait(length) {
  * Executes a block (callback) forever until the stop function is called
  * @param {Function} callback The block of code to execute forever
  * @param {Number} [delay] An optional delay in milliseconds (equivalent to forever + wait in Scratch)
- * @returns {number} An optional id that can be used by stop() to stop the forever
+ * @returns {Promise} A promise that get's called when the forever is stop()ed
  */
-function forever(callback, delay) {
-    return setInterval(function () {
-        callback();
-    }, delay || 1);
+function forever(callback, delay = 1) {
+    return new Promise(resolve => {
+        let id = setInterval(function () {
+            callback.bind({id: id, resolve: resolve})();
+        }, delay);
+    })
 }
 
 /**
  * Stops a forever
- * @param {Number} intervalToStop The id of the forever to stop
+ * @param {Object} intervalToStop The id of the forever to stop
  */
 function stop(intervalToStop) {
-    clearInterval(intervalToStop);
+    clearInterval(intervalToStop.id);
+    intervalToStop.resolve()
 }
 
 /**
@@ -777,7 +780,7 @@ function transpileAnonymousFunctions(code) {
     let linesOfCode = code.split("\n");
     for (let i in linesOfCode) {
         if (/^[A-Za-z_.-]*\s*\{/g.test(linesOfCode[i].trim())) {
-            linesOfCode[i] = linesOfCode[i].replaceLast("{", "=function(){")
+            linesOfCode[i] = linesOfCode[i].replaceLast("{", "= ()=> {")
         }
     }
 
