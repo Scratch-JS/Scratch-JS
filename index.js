@@ -402,6 +402,22 @@ function Sprite(x, y, value, scaleFactor) {
         document.body.insertBefore(this.element, elementToInsertBefore)
     };
 
+    /**
+     * Move the sprite to the layer before another sprite
+     * @param {Sprite} otherSprite
+     */
+    this.goBefore = function (otherSprite) {
+        document.body.insertBefore(this.element, otherSprite.element)
+    };
+
+    /**
+     * Move the sprite to the layer after another sprite
+     * @param {Sprite} otherSprite
+     */
+    this.goAfter = function (otherSprite) {
+        document.body.insertBefore(this.element, otherSprite.element.nextSibling)
+    };
+
     /*Sprite Initialisation*/
     this.x = x;
     this.y = y;
