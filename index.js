@@ -418,6 +418,13 @@ function Sprite(x, y, value, scaleFactor) {
         document.body.insertBefore(this.element, otherSprite.element.nextSibling)
     };
 
+    /**
+     * Deletes a sprite
+     */
+    this.delete = function () {
+        this.element.delete()
+    };
+
     /*Sprite Initialisation*/
     this.x = x;
     this.y = y;
