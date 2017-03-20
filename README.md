@@ -49,7 +49,7 @@ HTML tag sprites mean that you can use Scratch-JS to make full webpages and game
 # Use Scratch-JS
 You can use Scratch-JS by referenceing it in a HTML page like so
 ```html
-<script src="https://cdn.rawgit.com/Scratch-JS/Scratch-JS/afddd9e0/index.js"></script>
+<script src="https://cdn.rawgit.com/Scratch-JS/Scratch-JS/master/index.js"></script>
 ```
 ## Reporting Bugs
 
