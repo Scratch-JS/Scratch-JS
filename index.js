@@ -787,7 +787,7 @@ window.onload = function () {
 
     //add styles
     style = document.createElement("style");
-    style.innerHTML = ".sprite, #bodyDiv { position: absolute;} #bodyDiv{background-size: cover;} body { margin: 0; opacity: 0; overflow: hidden; } #cursorImage, img.sprite { user-select: none;} #cursorImage{pointer-events:none; z-index:1; position: relative}";
+    style.innerHTML = ".sprite, #bodyDiv { position: absolute;} #bodyDiv{background-size: cover;} body { margin: 0; opacity: 0; overflow: hidden; } #cursorImage, img.sprite { user-select: none;} #cursorImage{pointer-events:none; z-index:1; position: relative} div.speech { position: relative; width: 200px; height: 100px; /* text-align: center; */ /* line-height: 100px; */ background-color: #fff; border: 8px solid #666; -webkit-border-radius: 30px; -moz-border-radius: 30px; border-radius: 30px; -webkit-box-shadow: 2px 2px 4px #888; -moz-box-shadow: 2px 2px 4px #888; box-shadow: 2px 2px 4px #888; } div.speech:before { content: ' '; position: absolute; width: 0; height: 0; left: 30px; top: 100px; border: 25px solid; border-color: #666 transparent transparent #666; } div.speech form { line-height: 25px; margin-top: 22px; text-align: center; }";
     document.getElementsByTagName('head')[0].appendChild(style);
 
     //canvas setup
