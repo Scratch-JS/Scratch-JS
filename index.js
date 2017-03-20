@@ -19,16 +19,23 @@ function Sprite(x, y, value, scaleFactor) {
             ctx.lineTo(page.originOffsetX + this.x, page.originOffsetY - this.y);
             ctx.stroke();
         }
+        this.speechBuble.y = this.element.y - this.speechBuble.element.getBoundingClientRect().height - 50;
+        this.speechBuble.x = this.element.x + this.width / 2;
+        this.speechBuble.updateLocation();
     };
 
     //updates only x
     this.updateX = function () {
         this.element.style.left = (page.originOffsetX + this.x - (this.element.clientWidth / 2)) + "px";
+        this.speechBuble.x = this.element.x + this.width / 2;
+        this.speechBuble.updateLocation();
     };
 
     //updates only y
     this.updateY = function () {
         this.element.style.top = (page.originOffsetY - this.y - (this.element.clientHeight / 2)) + "px";
+        this.speechBuble.y = this.element.y - this.speechBuble.element.getBoundingClientRect().height - 50;
+        this.speechBuble.updateLocation();
     };
 
     this.updateRotation = function () {
@@ -425,6 +432,73 @@ function Sprite(x, y, value, scaleFactor) {
         this.element.delete()
     };
 
+    /**
+     * Say text for a period of time
+     * @param text
+     * @param time
+     * @returns {Promise}
+     */
+    this.say = function (text, time) {
+        this.speechBuble.element.innerHTML = "<div style='height: 100px; display: flex; align-items: center; justify-content: center;'>" + text + "</div>";
+        this.speechBuble.show();
+        return new Promise(resolve => {
+            wait(time).then(() => {
+                this.speechBuble.hide();
+                resolve();
+            })
+        });
+    };
+
+    /**
+     * Ask something and get the answer
+     * @param question
+     * @returns {{}} Returns an object similar to a Promise then(), but bound with this.answer to the inputted text
+     */
+    this.ask = function (question) {
+        this.speechBuble.element.innerHTML = "";
+        let form = document.createElement("form");
+        form.innerHTML = "<div>" + question + "</div><div style='height: 8px;'></div><input>";
+        this.speechBuble.element.appendChild(form);
+        //if the question is to big to fit on one line the div becomes > 25px, adjust the margin to account for that
+        if (form.firstChild.getBoundingClientRect().height > 25) {
+            form.style.marginTop = "8px"
+        }
+        this.speechBuble.show();
+        //custom implementation (non spec adherent) for Promise, then which allows me to bind the callback to a custom this
+        let thenObject = {};
+        thenObject.then = function (cb) {
+            form.addEventListener("submit", function (event) {
+                event.preventDefault();
+                cb.apply({answer: form.lastChild.value})
+            })
+        };
+        return thenObject;
+    };
+
+
+    /*Speech Bubble*/
+    this.speechBuble = {};
+
+    this.speechBuble.hide = () => {
+        this.speechBuble.element.style.visibility = "hidden";
+    };
+
+    this.speechBuble.show = () => {
+        this.speechBuble.element.style.visibility = "initial"
+    };
+
+    this.speechBuble.updateLocation = () => {
+        this.speechBuble.element.style.left = this.speechBuble.x + "px";
+        this.speechBuble.element.style.top = this.speechBuble.y + "px"
+    };
+
+    this.speechBuble.element = document.createElement("div");
+    this.speechBuble.element.classList.add("speech");
+    this.speechBuble.element.innerHTML = "<div></div>";
+    this.speechBuble.hide();
+    document.body.appendChild(this.speechBuble.element);
+
+
     /*Sprite Initialisation*/
     this.x = x;
     this.y = y;
@@ -480,8 +554,11 @@ function Sprite(x, y, value, scaleFactor) {
 
 
             this.updateLocation();
+            this.speechBuble.updateLocation();
+
             this.isImage = true;
             this.element.style.visibility = "initial";
+
 
             if (this.whenLoads) {
                 this.whenLoads();
@@ -554,12 +631,6 @@ function stop(intervalToStop) {
 }
 
 /**
- * Say something (uses JavaScript alert)
- * @param {String} text
- */
-let say = alert;
-
-/**
  * Print a message to the console (Uses JavaScript console.log)
  * @param {*} Message
  */
@@ -573,12 +644,6 @@ let think = console.log;
 function random(min, max) {
     return Math.floor((Math.random() * max) + min);
 }
-
-/**
- * Asks something (uses JavaScript prompt)
- * @param {String} text
- */
-let ask = prompt;
 
 
 whenKeyPressed = function () {
