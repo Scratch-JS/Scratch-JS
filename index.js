@@ -19,7 +19,7 @@ function Sprite(x, y, value, scaleFactor) {
             ctx.lineTo(page.originOffsetX + this.x, page.originOffsetY - this.y);
             ctx.stroke();
         }
-        this.speechBuble.y = this.element.y - this.speechBuble.element.getBoundingClientRect().height - 50;
+        this.speechBuble.y = this.element.y - this.speechBuble.element.getBoundingClientRect().height - 140;
         this.speechBuble.x = this.element.x + this.width / 2;
         this.speechBuble.updateLocation();
     };
@@ -34,7 +34,7 @@ function Sprite(x, y, value, scaleFactor) {
     //updates only y
     this.updateY = function () {
         this.element.style.top = (page.originOffsetY - this.y - (this.element.clientHeight / 2)) + "px";
-        this.speechBuble.y = this.element.y - this.speechBuble.element.getBoundingClientRect().height - 50;
+        this.speechBuble.y = this.element.y - this.speechBuble.element.getBoundingClientRect().height - 140;
         this.speechBuble.updateLocation();
     };
 
