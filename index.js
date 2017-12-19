@@ -646,7 +646,23 @@ function random(min, max) {
 }
 
 
-whenKeyPressed = function () {
+whenKeyPressed = function (e) {
+    var event = e.which || e.keyCode;
+    if(event == 13){
+        event.key = "enter";
+    } else if (event == 37) {
+        event.key = "left";
+    } else if (event == 38) {
+        event.key = "up";
+    } else if (event == 39) {
+        event.key = "right";
+    } else if (event == 40) {
+        event.key = "down";
+    } else if (event == 32) { 
+        event.key = "space";
+    } else if (event == 8) {
+        event.key = "backspace";
+    }
 };
 
 window.addEventListener("keypress", event => whenKeyPressed());
