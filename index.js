@@ -306,19 +306,8 @@ function Sprite(x, y, value, scaleFactor) {
      * Clears the sprite's pen
      */
     this.clearPen = function () {
-        canvas.remove();
-        //make a new canvas
-        canvas = document.createElement("canvas");
-        canvas.style.position = "absolute";
-        document.body.appendChild(canvas);
-        canvas.style.zIndex = "-1";
-        canvas.width = window.innerWidth;
-        canvas.height = window.innerHeight;
-        ctx = canvas.getContext('2d');
-        ctx.lineJoin = ctx.lineCap = 'round';
-        ctx.lineWidth = 1;
-        ctx.shadowBlur = 0;
-        ctx.shadowColor = "rgb(0, 0, 0)";
+        /*            x  y       width                height    */
+        ctx.clearRect(0, 0, window.innerWidth, window.innerHeight);
     };
 
     /**
